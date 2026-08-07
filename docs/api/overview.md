@@ -45,7 +45,7 @@ Authorization: Bearer <token>
 | Code Tasks | 4 | [Code Tasks API](./code-tasks) |
 | Incidents | 9 | [Incidents API](./incidents) |
 | Admin Security | 11 | [Admin Security API](./admin-security) |
-| Admin Maintenance | 2 | [Admin Maintenance API](./admin-maintenance) |
+| Admin Maintenance | 7 | [Admin Maintenance API](./admin-maintenance) |
 | AI Credentials | 5 | [AI Credentials API](./ai-credentials) |
 
 ## Endpoint index
@@ -102,7 +102,12 @@ Authorization: Bearer <token>
 | `POST` | `/incidents/{id}/resolve` | [Resolve incident](./incidents) | [IncidentResolutionRequest](./schemas) | [Incident](./schemas) | [Incidents API](./incidents) |
 | `POST` | `/incidents/{id}/reopen` | [Reopen incident](./incidents) | - | [Incident](./schemas) | [Incidents API](./incidents) |
 | `POST` | `/incidents/{id}/retry` | [Retry incident](./incidents) | [IncidentRetryRequest](./schemas) | [Incident](./schemas) | [Incidents API](./incidents) |
+| `GET` | `/admin/maintenance/retention` | [Get data retention settings](./admin-maintenance) | - | [DataRetentionSettingsResponse](./schemas) | [Admin Maintenance API](./admin-maintenance) |
+| `PUT` | `/admin/maintenance/retention` | [Update data retention settings](./admin-maintenance) | [UpdateDataRetentionSettingsRequest](./schemas) | [DataRetentionSettingsResponse](./schemas) | [Admin Maintenance API](./admin-maintenance) |
+| `POST` | `/admin/maintenance/retention/preview` | [Preview configured retention](./admin-maintenance) | - | [MaintenanceCleanupSummary](./schemas) | [Admin Maintenance API](./admin-maintenance) |
+| `POST` | `/admin/maintenance/retention/run` | [Run configured retention](./admin-maintenance) | - | [MaintenanceCleanupSummary](./schemas) | [Admin Maintenance API](./admin-maintenance) |
 | `POST` | `/admin/maintenance/purge-completed-instances` | [Purge completed instances](./admin-maintenance) | [PurgeCompletedInstancesRequest](./schemas) | [MaintenanceCleanupSummary](./schemas) | [Admin Maintenance API](./admin-maintenance) |
+| `POST` | `/admin/maintenance/purge-completed-tasks` | [Purge completed tasks](./admin-maintenance) | [PurgeCompletedTasksRequest](./schemas) | [MaintenanceCleanupSummary](./schemas) | [Admin Maintenance API](./admin-maintenance) |
 | `DELETE` | `/admin/maintenance/process-definitions/{id}` | [Delete process definition](./admin-maintenance) | - | [MaintenanceCleanupSummary](./schemas) | [Admin Maintenance API](./admin-maintenance) |
 | `GET` | `/admin/groups` | [listGroups](./admin-security) | - | [GroupResponse](./schemas)[] | [Admin Security API](./admin-security) |
 | `POST` | `/admin/groups` | [createGroup](./admin-security) | [CreateGroupRequest](./schemas) | [GroupResponse](./schemas) | [Admin Security API](./admin-security) |

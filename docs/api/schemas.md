@@ -270,6 +270,28 @@ Example:
 }
 ```
 
+## DataRetentionSettingsResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `enabled` | boolean | No | Whether scheduled retention is enabled. |
+| `completedProcessRetentionDays` | integer(int64) | No | Number of days completed process instances are retained. |
+| `completedTaskRetentionDays` | integer(int64) | No | Number of days completed tasks are retained. |
+| `batchSize` | integer(int32) | No | Maximum number of candidates processed in one cleanup run. |
+| `cron` | string | No | Spring cron expression used by the scheduler. |
+
+Example:
+
+```json
+{
+  "enabled": false,
+  "completedProcessRetentionDays": 90,
+  "completedTaskRetentionDays": 90,
+  "batchSize": 500,
+  "cron": "0 0 3 * * *"
+}
+```
+
 ## Incident
 
 | Property | Type | Required | Description |
@@ -379,6 +401,7 @@ Example:
 | `timelineEventsDeleted` | integer(int32) | No | Process timeline events affected. |
 | `callActivityMappingsDeleted` | integer(int32) | No | Call activity mappings affected. |
 | `candidateInstanceIds` | integer[] | No | Candidate process instance ids. |
+| `candidateTaskIds` | integer[] | No | Candidate completed task ids. |
 
 ## PurgeCompletedInstancesRequest
 
@@ -387,6 +410,15 @@ Example:
 | `completedBefore` | string(date-time) | Yes | Completed instances updated before this timestamp are candidates. |
 | `processDefinitionId` | integer(int64) | No | Optional process definition id filter. |
 | `processKey` | string | No | Optional process key filter. |
+| `batchSize` | integer(int32) | No | Optional candidate limit for the request. |
+| `dryRun` | boolean | No | `true` previews, `false` executes deletion. |
+
+## PurgeCompletedTasksRequest
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completedBefore` | string(date-time) | Yes | Completed tasks finished before this timestamp are candidates. |
+| `batchSize` | integer(int32) | No | Optional candidate limit for the request. |
 | `dryRun` | boolean | No | `true` previews, `false` executes deletion. |
 
 ## DeployFormRequest
@@ -1138,6 +1170,28 @@ Example:
     "ACCESS_BPM_ADMIN",
     "ACCESS_PROCESS_PORTAL"
   ]
+}
+```
+
+## UpdateDataRetentionSettingsRequest
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `enabled` | boolean | Yes | Enables or disables scheduled retention. |
+| `completedProcessRetentionDays` | integer(int64) | Yes | Number of days completed process instances are retained. |
+| `completedTaskRetentionDays` | integer(int64) | Yes | Number of days completed tasks are retained. |
+| `batchSize` | integer(int32) | Yes | Maximum number of candidates processed in one cleanup run. |
+| `cron` | string | Yes | Spring cron expression used by the scheduler. |
+
+Example:
+
+```json
+{
+  "enabled": true,
+  "completedProcessRetentionDays": 180,
+  "completedTaskRetentionDays": 45,
+  "batchSize": 500,
+  "cron": "0 0 3 * * *"
 }
 ```
 

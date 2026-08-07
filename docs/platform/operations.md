@@ -80,10 +80,19 @@ Available operations:
 
 | Operation | What it deletes |
 | --- | --- |
+| Configured retention policy | Completed process instances and completed tasks that exceed the saved retention windows. |
 | Purge completed instances | Completed process instances older than a selected date, optionally filtered by process definition. |
+| Purge completed tasks | Completed tasks older than a selected date without deleting the parent process instance. |
 | Delete process definition | A process definition and all runtime data related to that definition. |
 
-Both operations support a preview before execution.
+All maintenance operations support a preview before execution.
+
+The configured retention policy also supports:
+
+- enable or disable scheduled cleanup
+- separate retention windows for completed process instances and completed tasks
+- a batch size limit for each cleanup run
+- a Spring cron schedule for automated execution
 
 The cleanup removes related runtime records, including:
 

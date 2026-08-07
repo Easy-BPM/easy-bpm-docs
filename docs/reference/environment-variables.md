@@ -25,8 +25,15 @@ Use the `EASY_BPM_<APP>_<VARIABLE>` naming standard for customer-facing configur
 | `EASY_BPM_SERVER_LOGGING_LEVEL_HIBERNATE` | `WARN` |
 | `EASY_BPM_SERVER_AI_ENCRYPTION_KEY` | `default-dev-key-change-in-prod-1234` |
 | `EASY_BPM_SERVER_TEST_DATA_ENABLED` | `false` |
+| `EASY_BPM_SERVER_RETENTION_ENABLED` | `false` |
+| `EASY_BPM_SERVER_RETENTION_COMPLETED_PROCESS_RETENTION_DAYS` | `90` |
+| `EASY_BPM_SERVER_RETENTION_COMPLETED_TASK_RETENTION_DAYS` | `90` |
+| `EASY_BPM_SERVER_RETENTION_BATCH_SIZE` | `500` |
+| `EASY_BPM_SERVER_RETENTION_CRON` | `0 0 3 * * *` |
 
 `EASY_BPM_SERVER_TEST_DATA_ENABLED=true` seeds demo/test process definitions, instances, tasks, and variables at backend startup. Keep it disabled in production.
+
+Retention defaults seed the first saved maintenance policy record. After the Admin Console saves retention settings, those values become the runtime source for scheduled cleanup until changed again.
 
 ## Agentic orchestration and AI providers
 

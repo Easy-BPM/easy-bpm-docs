@@ -17,7 +17,7 @@ The Admin Console is the operational workspace for process monitoring, instance 
 | Variables | Inspect and update process variables for controlled support actions. |
 | Token movement | Move an active instance from one node to another with an operator reason. |
 | Incident Manager | Review, acknowledge, retry, resolve, and reopen operational incidents. |
-| Purge & Archiving | Preview and execute cleanup of completed instances or delete process definitions with related data. |
+| Purge & Archiving | Configure scheduled retention, preview and execute cleanup of completed instances or tasks, or delete process definitions with related data. |
 | Stop/delete | Stop active instances or hard-delete runtime data when policy allows it. |
 | Security | Manage users, groups, and permission assignments. |
 | Code Task audits | Review execution history, status, duration, inputs, outputs, and failures. |
@@ -39,6 +39,6 @@ Use token movement and variable edits as support tools, not as normal process de
 
 Use Incident Manager before manual token movement when an instance failed because of a worker/API timeout, Code Task failure, or AI Task failure. Incidents preserve the recovery history and can link directly to the affected process instance.
 
-Use Purge & Archiving only after a customer retention window has passed. Maintenance operations are hard deletes. Always run a preview first and review the cleanup summary before executing.
+Use Purge & Archiving only after a customer retention window has passed. Maintenance operations are hard deletes. Always run a preview first, review the cleanup summary, and keep scheduled retention disabled until the policy values and cron are confirmed for the environment.
 
 For a complete operations workflow, see [Operations](./operations).
