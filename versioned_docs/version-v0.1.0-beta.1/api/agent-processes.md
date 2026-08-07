@@ -30,11 +30,6 @@ Validation rules:
 | `availableTools` | Optional, but when present it must be an array. |
 | `provider` | Optional, but when present it must be an object with non-empty `providerId` and `modelName`. |
 
-Provider notes:
-
-- `provider.endpoint` is optional. Use it when the provider should call a custom base URL, reverse proxy, Azure-style endpoint, or a host-local Ollama instance.
-- For `providerId: "ollama"`, the backend accepts either a base URL such as `http://localhost:11434` or a full `.../api/generate` URL and normalizes the request target automatically.
-
 Key resolution rules:
 
 1. The backend uses `processKey` when provided.
@@ -58,7 +53,6 @@ curl -X POST "http://localhost:8080/agent-processes" \
     "provider": {
       "providerId": "gemini",
       "modelName": "gemini-3.5-flash",
-      "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
       "credentialRef": "$GEMINI_API_KEY"
     },
     "steps": [
@@ -98,8 +92,6 @@ Response fields:
 | `definitionJson` | Original deployed definition serialized as JSON text. |
 | `version` | Incrementing version for the same key. |
 | `createdAt` | Backend timestamp when this definition version was stored. |
-
-If the deployed definition includes `provider.endpoint`, it is preserved inside `definitionJson` exactly as sent.
 
 ## GET /agent-processes
 

@@ -24,6 +24,9 @@ Use the `EASY_BPM_<APP>_<VARIABLE>` naming standard for customer-facing configur
 | `EASY_BPM_SERVER_LOGGING_LEVEL_APP` | `DEBUG` |
 | `EASY_BPM_SERVER_LOGGING_LEVEL_HIBERNATE` | `WARN` |
 | `EASY_BPM_SERVER_AI_ENCRYPTION_KEY` | `default-dev-key-change-in-prod-1234` |
+| `EASY_BPM_SERVER_TEST_DATA_ENABLED` | `false` |
+
+`EASY_BPM_SERVER_TEST_DATA_ENABLED=true` seeds demo/test process definitions, instances, tasks, and variables at backend startup. Keep it disabled in production.
 
 ## Agentic orchestration and AI providers
 
@@ -55,6 +58,8 @@ PowerShell local example:
 $env:GEMINI_API_KEY="AIza..."
 $env:EASY_BPM_SERVER_AI_ENCRYPTION_KEY="replace-with-a-production-secret"
 ```
+
+For local agentic orchestration testing, keep API keys in your shell environment or an untracked `.env` file.
 
 ## Worker
 
@@ -89,6 +94,9 @@ $env:EASY_BPM_SERVER_AI_ENCRYPTION_KEY="replace-with-a-production-secret"
 | `EASY_BPM_ADMIN_API_BASE_URL` | Backend API URL used by the Admin Console. |
 | `EASY_BPM_MODELER_API_BASE_URL` | Backend API URL used by the Modeler. |
 | `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION` | Enables the feature-flagged Agent Process / Agent Board resource in the Modeler when set to `true`, `1`, `yes`, `on`, or `enabled`. Defaults to disabled. |
+| `EASY_BPM_MODELER_DEFAULT_AI_PROVIDER` | Default provider selected by the Agent Board. |
+| `EASY_BPM_MODELER_DEFAULT_AI_MODEL` | Default model selected by the Agent Board. |
+| `EASY_BPM_MODELER_DEFAULT_AI_CREDENTIAL_REF` | Default credential reference selected by the Agent Board. |
 | `EASY_BPM_TASK_PORTAL_API_BASE_URL` | Backend API URL used by the Task Portal. |
 
 Run the feature-flagged modeler locally with:

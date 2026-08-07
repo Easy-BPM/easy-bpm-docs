@@ -405,8 +405,6 @@ Example:
 }
 ```
 
-## Call Activity
-
 ## Agent Process (Feature Flag)
 
 Agent Process is the feature-flagged resource for agentic orchestration. Use it when a BPM process needs to call an AI-driven agent that can evaluate context, produce a structured decision, and write outputs back to process variables.
@@ -426,13 +424,12 @@ Agent Process provider configuration:
 | --- | --- | --- |
 | `Provider` | `gemini` | Provider ID used by the backend provider factory. |
 | `Model` | `gemini-3.5-flash` | Model name sent to the provider. |
-| `Endpoint` | `http://localhost:11434` | Optional provider base URL or full endpoint. The backend appends `/api/generate` for Ollama when needed. |
 | `Credential Ref` | `$GEMINI_API_KEY` | Environment variable references must start with `$`. Stored credential IDs do not use `$`. |
 | `Goal` | `Resolve customer complaint` | Main objective for the agent. |
 | `Instructions` | `Investigate, classify, decide next action` | Operational instructions included in the prompt context. |
 | `Constraints` | `Refunds over 500 require approval` | Guardrails and business policy reminders. |
 
-When you switch the Agent Board provider to `ollama`, use your Ollama base URL, such as `http://localhost:11434`. If you leave the field blank in a deployed definition, the backend falls back to `http://localhost:11434/api/generate` and appends `/api/generate` automatically when you provide only the base URL.
+For local AI testing, `providerId: "ollama"` works without a credential reference and defaults to `http://localhost:11434/api/generate` with model `llama3.2` when the endpoint is not overridden.
 
 Agent Process definition example:
 
@@ -445,7 +442,6 @@ Agent Process definition example:
   "provider": {
     "providerId": "gemini",
     "modelName": "gemini-3.5-flash",
-    "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
     "credentialRef": "$GEMINI_API_KEY"
   },
   "steps": []
@@ -508,6 +504,8 @@ Deploy order:
 2. Create and deploy the Agent Process from the Agent Board.
 3. Add an `Agent Process` node to the BPM process and set `Agent Process Key` to the deployed agent key.
 4. Deploy the BPM process, start an instance, and inspect the process variables for the agent decision/output.
+
+## Call Activity
 
 ![Call Activity component](/img/screenshots/modeler/component-call-activity.png)
 
@@ -875,6 +873,7 @@ Before exporting or deploying, resolve these common issues:
 | API Task | Publishes a worker request. Completion maps response JSON paths to process variables. Failure follows an error boundary when present, otherwise the instance becomes `FAILED`. |
 | Service Task | Applies configured variable mappings and continues automatically. |
 | Code Task | Uses backend/admin code task configuration and modeler variable mappings. |
+| Agent Process | Calls a deployed Agent Process, records the execution, and maps the agent decision/output back to process variables. |
 | Call Activity | Starts a child process and maps variables between parent and child. |
 | Message Catch/Boundary | Waits for a correlated message. Timeout can route to boundary behavior or fail when unhandled. |
 | Timer Event/Boundary | Uses scheduled timeout processing. |
@@ -886,6 +885,12 @@ Set the backend URL for the modeler with:
 
 ```bash
 EASY_BPM_MODELER_API_BASE_URL=http://localhost:8080
+```
+
+Enable the Agent Board and Agent Process BPM node with:
+
+```bash
+EASY_BPM_MODELER_AGENTIC_ORCHESTRATION=true
 ```
 
 For deployed environments, point `EASY_BPM_MODELER_API_BASE_URL` at the customer backend URL.

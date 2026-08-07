@@ -41,12 +41,12 @@
         "api/overview",
         "api/swagger",
         "api/authentication",
+        "api/agent-processes",
         "api/processes",
         "api/tasks",
         "api/forms",
         "api/documents",
         "api/code-tasks",
-        "api/agent-processes",
         "api/admin-security",
         "api/ai-credentials",
         "api/schemas"
