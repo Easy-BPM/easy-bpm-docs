@@ -43,7 +43,7 @@ Use the same immutable tag across all Easy BPM images in one release.
 
 ## Agentic orchestration values
 
-Enable the Agent Board and Agent Process BPM node in the Modeler with Helm values:
+Enable the Agent Process resource and Agent Process BPM node in the Modeler with Helm values:
 
 ```yaml
 web:

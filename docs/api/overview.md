@@ -59,7 +59,7 @@ Authorization: Bearer <token>
 | `GET` | `/agent-processes/{key}` | [Get latest agent process definition by key](./agent-processes) | - | `AgentProcessDefinition` | [Agent Processes API](./agent-processes) |
 | `GET` | `/agent-processes/{key}/versions` | [Get all versions for an agent process key](./agent-processes) | - | `AgentProcessDefinition[]` | [Agent Processes API](./agent-processes) |
 | `GET` | `/processes` | [Get latest process definitions](./processes) | - | [PageProcessDefinition](./schemas) | [Processes API](./processes) |
-| `POST` | `/processes` | [Deploy a process definition](./processes) | `Easy BPM process JSON` | [ProcessDefinition](./schemas) | [Processes API](./processes) |
+| `POST` | `/processes` | [Deploy a process definition](./processes) | `BPMN 2.0 XML` | [ProcessDefinition](./schemas) | [Processes API](./processes) |
 | `POST` | `/processes/{processId}/start` | [Start a process instance](./processes) | - | [ProcessInstance](./schemas) | [Processes API](./processes) |
 | `GET` | `/processes/definitions/{id}` | [Get process definition by ID](./processes) | - | [ProcessDefinition](./schemas) | [Processes API](./processes) |
 | `GET` | `/processes/instances` | [Get process instances](./processes) | - | [PageProcessInstance](./schemas) | [Processes API](./processes) |
@@ -78,7 +78,7 @@ Authorization: Bearer <token>
 | `GET` | `/tasks/{id}` | [Get task by ID](./tasks) | - | [TaskResponseDto](./schemas) | [Tasks API](./tasks) |
 | `POST` | `/tasks/{id}/claim` | [Claim a task](./tasks) | - | [TaskResponseDto](./schemas) | [Tasks API](./tasks) |
 | `POST` | `/tasks/{id}/complete` | [Complete a task](./tasks) | `Task completion payload` | `string` | [Tasks API](./tasks) |
-| `GET` | `/tasks/search` | [Search tasks](./tasks) | - | [PageTaskResponseDto](./schemas) | [Tasks API](./tasks) |
+| `POST` | `/tasks/search` | [Search tasks](./tasks) | [TaskSearchRequestDto](./schemas) | [PageTaskResponseDto](./schemas) | [Tasks API](./tasks) |
 | `GET` | `/forms` | [Get all form versions](./forms) | - | [Form](./schemas)[] | [Forms API](./forms) |
 | `POST` | `/forms` | [Deploy a form](./forms) | [DeployFormRequest](./schemas) | [Form](./schemas) | [Forms API](./forms) |
 | `GET` | `/forms/{id}` | [Get form by ID](./forms) | - | [Form](./schemas) | [Forms API](./forms) |

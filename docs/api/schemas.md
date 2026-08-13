@@ -390,8 +390,8 @@ Example:
 | `processDefinitionsDeleted` | integer(int32) | No | Process definitions affected. |
 | `processInstancesDeleted` | integer(int32) | No | Process instances affected. |
 | `tasksDeleted` | integer(int32) | No | Tasks affected. |
-| `processVariablesDeleted` | integer(int32) | No | Process variables affected. |
-| `taskVariablesDeleted` | integer(int32) | No | Task variables affected. |
+| `processVariablesDeleted` | integer(int32) | No | Process variables affected, including archived snapshots kept after completion or cancellation. |
+| `taskVariablesDeleted` | integer(int32) | No | Task variables affected, including archived snapshots kept for completed tasks. |
 | `documentsDeleted` | integer(int32) | No | Documents affected. |
 | `messageSubscriptionsDeleted` | integer(int32) | No | Message subscriptions affected. |
 | `workerRequestsDeleted` | integer(int32) | No | Worker requests affected. |
@@ -1104,6 +1104,77 @@ Example:
   "empty": true,
   "unsorted": true,
   "sorted": true
+  }
+  ```
+
+## TaskFilterOperator
+
+| Value | Description |
+| --- | --- |
+| `EQUALS` | Exact match. |
+| `NOT_EQUALS` | Exact mismatch. |
+| `IN` | Match any of the provided values. |
+| `NOT_IN` | Exclude any of the provided values. |
+| `GREATER_THAN` | Greater than the provided value. |
+| `GREATER_THAN_OR_EQUAL` | Greater than or equal to the provided value. |
+| `LESS_THAN` | Less than the provided value. |
+| `LESS_THAN_OR_EQUAL` | Less than or equal to the provided value. |
+| `CONTAINS` | Case-insensitive substring match. |
+| `STARTS_WITH` | Case-insensitive prefix match. |
+| `ENDS_WITH` | Case-insensitive suffix match. |
+
+## TaskVariableScope
+
+| Value | Description |
+| --- | --- |
+| `TASK` | Match a task variable. |
+| `PROCESS` | Match a process variable for the same process instance. |
+
+## TaskSearchFilterDto
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `field` | string | Yes | Filter target such as `status`, `assignee`, `taskName`, `createdAt`, `processDefinition`, or `variable`. |
+| `operator` | TaskFilterOperator | No | Defaults to `EQUALS`. |
+| `value` | any | No | Single value for the filter. Use this for equality, string, date, or numeric comparisons. |
+| `values` | any[] | No | Multi-value filter input used by `IN` and `NOT_IN`. |
+| `scope` | TaskVariableScope | No | Required when `field` is `variable`. |
+| `name` | string | No | Required when `field` is `variable`. The variable name to match. |
+
+Example:
+
+```json
+{
+  "field": "taskName",
+  "operator": "CONTAINS",
+  "value": "review"
+}
+```
+
+## TaskSearchRequestDto
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `filters` | TaskSearchFilterDto[] | No | Filters combined with `AND`. Omit the array or send an empty array to list visible tasks without extra search constraints. |
+
+Example:
+
+```json
+{
+  "filters": [
+    {
+      "field": "status",
+      "operator": "EQUALS",
+      "value": "PENDING"
+    },
+    {
+      "field": "variable",
+      "operator": "EQUALS",
+      "scope": "TASK",
+      "name": "approved",
+      "value": true
+    }
+  ]
 }
 ```
 
@@ -1125,7 +1196,7 @@ Example:
 | `completedAt` | string(date-time) | No |  |
 | `formDbId` | integer(int64) | No |  |
 | `formId` | string | No |  |
-| `variables` | object | No |  |
+| `variables` | object | No | Task variable snapshot returned with the task. Completed tasks continue to return their last saved variables until maintenance cleanup removes the task. |
 
 Example:
 

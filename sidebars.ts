@@ -70,6 +70,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Reference',
       items: [
+        'reference/releases',
         'reference/process-json',
         'reference/permissions',
         'reference/environment-variables',

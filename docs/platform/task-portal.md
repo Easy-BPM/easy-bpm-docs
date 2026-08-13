@@ -13,7 +13,7 @@ The Task Portal is where business users and developer testers start processes, v
 | Action | Description |
 | --- | --- |
 | Start process | Starts the latest deployed version of a process definition. |
-| View tasks | Lists tasks visible to the current user based on assignee and group membership. |
+| View tasks | Lists tasks visible to the current user and supports structured filters for task fields and variables. |
 | Claim task | Assigns a shared candidate-group task to the current user. |
 | Complete task | Submits variables and continues process execution. |
 | Upload documents | Stores files against the task, process instance, and form field. |
@@ -32,7 +32,7 @@ The portal calls the same public APIs documented in this site:
 | Login | `POST /auth/login` |
 | Process list | `GET /processes` |
 | Start process | `POST /processes/{processId}/start` |
-| Task list | `GET /tasks/search` |
+| Task list | `POST /tasks/search` |
 | Task details | `GET /tasks/{id}` |
 | Claim task | `POST /tasks/{id}/claim` |
 | Complete task | `POST /tasks/{id}/complete` |

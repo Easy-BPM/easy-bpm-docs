@@ -63,9 +63,18 @@ Task outputs copy submitted values back to process variables.
 ## Search tasks
 
 ```bash
-curl "http://localhost:8080/tasks/search?status=PENDING&page=0&size=20" \
-  -H "Authorization: Bearer $TOKEN"
+curl -X POST "http://localhost:8080/tasks/search?page=0&size=20" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+    "filters": [
+      { "field": "status", "operator": "EQUALS", "value": "PENDING" },
+      { "field": "taskName", "operator": "CONTAINS", "value": "review" }
+    ]
+  }'
 ```
+
+The search endpoint now accepts structured filters, so you can combine task fields, dates, and variables in one request.
 
 ## Claim a task
 
@@ -88,4 +97,4 @@ curl -X POST http://localhost:8080/tasks/123/complete \
   }'
 ```
 
-When the task is completed, Easy BPM stores task variables, updates mapped process variables, and continues process execution.
+When the task is completed, Easy BPM stores task variables, updates mapped process variables, and continues process execution. Completed task API responses keep those submitted task variables available for later review.

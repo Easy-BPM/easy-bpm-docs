@@ -4,7 +4,7 @@ title: Modeler
 
 # Modeler
 
-The Easy BPM Modeler is the workspace for designing process definitions and reusable forms. It has a component palette, a canvas, a properties panel, validation feedback, import/export actions, and deployment to the configured Easy BPM backend.
+The Easy BPM Modeler is the workspace for designing BPMN 2.0 process definitions and reusable forms. It has a component palette, a canvas, a properties panel, validation feedback, BPMN import/export actions, and deployment to the configured Easy BPM backend.
 
 ![Easy BPM Modeler light mode](/img/screenshots/modeler/modeler-light-overview.png)
 
@@ -33,7 +33,7 @@ The screenshots in this page use light mode. Use the sun/moon button in the top 
 4. Connect the nodes with sequence flows.
 5. Configure variables, forms, APIs, messages, timers, gateways, and boundary events.
 6. Resolve validation errors in the right panel.
-7. Export the JSON or deploy the process to the backend.
+7. Export the BPMN XML or deploy the process to the backend.
 8. Start a test instance from the Task Portal, BPM Admin, or the process API.
 
 ## Main areas
@@ -44,8 +44,8 @@ The screenshots in this page use light mode. Use the sun/moon button in the top 
 | Canvas | Arrange nodes and create sequence flows between connection points. |
 | Properties panel | Configure the selected process, node, or connection. |
 | Validation summary | Shows errors and warnings for missing flows, duplicate IDs, invalid forms, invalid timers, and boundary placement. |
-| Import and Export | Load or save modeler JSON. Export validates the model before creating the JSON file. |
-| Deploy | Sends the process JSON to the backend as a new process definition version. |
+| Import and Export | Load or save BPMN 2.0 XML for process definitions. Export validates the model before creating the BPMN file. |
+| Deploy | Sends BPMN 2.0 XML to the backend as a new process definition version. |
 
 ![Modeler component palette](/img/screenshots/modeler/modeler-components-palette.png)
 
@@ -62,6 +62,10 @@ Most executable components share these properties.
 | Output variables | Values copied from a task/component result into process variables. |
 
 The modeler validates duplicate node IDs and empty IDs. IDs should start with a letter and use letters, numbers, hyphens, or underscores where the UI validates a key-like value.
+
+## Process format
+
+For current releases, process definitions are imported, exported, and deployed as BPMN 2.0 XML. The examples in this page use short configuration snippets for readability, but the actual process artifact exchanged with the backend is BPMN XML.
 
 ## Variables and mappings
 
@@ -416,20 +420,23 @@ $env:EASY_BPM_MODELER_AGENTIC_ORCHESTRATION="true"
 npm run dev
 ```
 
-When enabled, the modeler shows the Agent Board resource and an `Agent Process` BPM node. The Agent Board can import/export Agent Process JSON drafts and deploy reusable agent definitions to `POST /agent-processes`. A BPM process then calls one of those deployed agents with an `AgentProcessCall` node.
+When enabled, the modeler shows the Agent Process resource and an `Agent Process` BPM node. The Agent Process editor can import/export Agent Process JSON drafts and deploy reusable agent definitions to `POST /agent-processes`. A BPM process then calls one of those deployed agents with an `AgentProcessCall` node.
 
 Agent Process provider configuration:
 
 | Property | Example | Notes |
 | --- | --- | --- |
-| `Provider` | `gemini` | Provider ID used by the backend provider factory. |
-| `Model` | `gemini-3.5-flash` | Model name sent to the provider. |
-| `Credential Ref` | `$GEMINI_API_KEY` | Environment variable references must start with `$`. Stored credential IDs do not use `$`. |
+| `Provider` | `gemini` or `azure-openai` | Provider ID used by the backend provider factory. |
+| `Model` | `gemini-3.5-flash` or `gpt-4o-mini` | Model name or Azure deployment name sent to the provider. |
+| `Endpoint` | `https://<resource>.openai.azure.com/openai/v1/responses` | Optional for most providers. Required for `azure-openai`. |
+| `Credential Ref` | `$GEMINI_API_KEY` or `$AZURE_OPENAI_API_KEY` | Environment variable references must start with `$`. Stored credential IDs do not use `$`. |
 | `Goal` | `Resolve customer complaint` | Main objective for the agent. |
 | `Instructions` | `Investigate, classify, decide next action` | Operational instructions included in the prompt context. |
 | `Constraints` | `Refunds over 500 require approval` | Guardrails and business policy reminders. |
 
 For local AI testing, `providerId: "ollama"` works without a credential reference and defaults to `http://localhost:11434/api/generate` with model `llama3.2` when the endpoint is not overridden.
+
+For Azure OpenAI, set `providerId` to `azure-openai`, use the Azure deployment name in `modelName`, and provide an Azure endpoint plus a credential reference such as `$AZURE_OPENAI_API_KEY`.
 
 Agent Process definition example:
 
@@ -501,7 +508,7 @@ Agent Process call example:
 Deploy order:
 
 1. Enable `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION=true` and open the modeler.
-2. Create and deploy the Agent Process from the Agent Board.
+2. Create and deploy the Agent Process from the Agent Process resource.
 3. Add an `Agent Process` node to the BPM process and set `Agent Process Key` to the deployed agent key.
 4. Deploy the BPM process, start an instance, and inspect the process variables for the agent decision/output.
 
@@ -887,7 +894,7 @@ Set the backend URL for the modeler with:
 EASY_BPM_MODELER_API_BASE_URL=http://localhost:8080
 ```
 
-Enable the Agent Board and Agent Process BPM node with:
+Enable the Agent Process resource and Agent Process BPM node with:
 
 ```bash
 EASY_BPM_MODELER_AGENTIC_ORCHESTRATION=true

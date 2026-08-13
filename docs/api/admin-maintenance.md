@@ -94,6 +94,8 @@ If retention is disabled, the API returns `409 Conflict`.
 
 Deletes completed process instances older than a cutoff date. You can optionally filter by process definition id or process key.
 
+This purge also removes the archived process-variable snapshots that are kept after a process instance completes or is cancelled.
+
 Request:
 
 ```json
@@ -133,6 +135,8 @@ curl -X POST "http://localhost:8080/admin/maintenance/purge-completed-instances"
 ## POST /admin/maintenance/purge-completed-tasks
 
 Deletes completed tasks older than a cutoff date. Use this when completed task records must be removed without deleting the parent process instance.
+
+This purge also removes the archived task-variable snapshots that completed task responses use.
 
 Request:
 
@@ -214,8 +218,8 @@ Maintenance cleanup removes:
 
 - process instances
 - tasks
-- task variables
-- process variables
+- task variables, including archived snapshots kept for completed tasks
+- process variables, including archived snapshots kept for completed or cancelled instances
 - documents
 - message subscriptions
 - worker requests

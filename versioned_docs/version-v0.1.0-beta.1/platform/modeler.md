@@ -416,7 +416,7 @@ $env:EASY_BPM_MODELER_AGENTIC_ORCHESTRATION="true"
 npm run dev
 ```
 
-When enabled, the modeler shows the Agent Board resource and an `Agent Process` BPM node. The Agent Board can import/export Agent Process JSON drafts and deploy reusable agent definitions to `POST /agent-processes`. A BPM process then calls one of those deployed agents with an `AgentProcessCall` node.
+When enabled, the modeler shows the Agent Process resource and an `Agent Process` BPM node. The Agent Process editor can import/export Agent Process JSON drafts and deploy reusable agent definitions to `POST /agent-processes`. A BPM process then calls one of those deployed agents with an `AgentProcessCall` node.
 
 Agent Process provider configuration:
 
@@ -501,7 +501,7 @@ Agent Process call example:
 Deploy order:
 
 1. Enable `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION=true` and open the modeler.
-2. Create and deploy the Agent Process from the Agent Board.
+2. Create and deploy the Agent Process from the Agent Process resource.
 3. Add an `Agent Process` node to the BPM process and set `Agent Process Key` to the deployed agent key.
 4. Deploy the BPM process, start an instance, and inspect the process variables for the agent decision/output.
 
@@ -887,7 +887,7 @@ Set the backend URL for the modeler with:
 EASY_BPM_MODELER_API_BASE_URL=http://localhost:8080
 ```
 
-Enable the Agent Board and Agent Process BPM node with:
+Enable the Agent Process resource and Agent Process BPM node with:
 
 ```bash
 EASY_BPM_MODELER_AGENTIC_ORCHESTRATION=true

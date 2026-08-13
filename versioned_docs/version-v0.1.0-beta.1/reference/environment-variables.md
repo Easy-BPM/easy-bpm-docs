@@ -93,10 +93,10 @@ For local agentic orchestration testing, keep API keys in your shell environment
 | --- | --- |
 | `EASY_BPM_ADMIN_API_BASE_URL` | Backend API URL used by the Admin Console. |
 | `EASY_BPM_MODELER_API_BASE_URL` | Backend API URL used by the Modeler. |
-| `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION` | Enables the feature-flagged Agent Process / Agent Board resource in the Modeler when set to `true`, `1`, `yes`, `on`, or `enabled`. Defaults to disabled. |
-| `EASY_BPM_MODELER_DEFAULT_AI_PROVIDER` | Default provider selected by the Agent Board. |
-| `EASY_BPM_MODELER_DEFAULT_AI_MODEL` | Default model selected by the Agent Board. |
-| `EASY_BPM_MODELER_DEFAULT_AI_CREDENTIAL_REF` | Default credential reference selected by the Agent Board. |
+| `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION` | Enables the feature-flagged Agent Process resource in the Modeler when set to `true`, `1`, `yes`, `on`, or `enabled`. Defaults to disabled. |
+| `EASY_BPM_MODELER_DEFAULT_AI_PROVIDER` | Default provider selected by the Agent Process editor. |
+| `EASY_BPM_MODELER_DEFAULT_AI_MODEL` | Default model selected by the Agent Process editor. |
+| `EASY_BPM_MODELER_DEFAULT_AI_CREDENTIAL_REF` | Default credential reference selected by the Agent Process editor. |
 | `EASY_BPM_TASK_PORTAL_API_BASE_URL` | Backend API URL used by the Task Portal. |
 
 Run the feature-flagged modeler locally with:

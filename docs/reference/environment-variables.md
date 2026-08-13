@@ -55,6 +55,7 @@ In that example, the backend process must have `GEMINI_API_KEY` configured in it
 | --- | --- |
 | `OPENAI_API_KEY` | OpenAI API key used when an Agent Process or AI task references `"$OPENAI_API_KEY"`. |
 | `GEMINI_API_KEY` | Google Gemini API key used when an Agent Process or AI task references `"$GEMINI_API_KEY"`. |
+| `AZURE_OPENAI_API_KEY` | Azure OpenAI API key used when an Agent Process or AI task references `"$AZURE_OPENAI_API_KEY"`. |
 | `EASY_BPM_SERVER_AI_ENCRYPTION_KEY` | Key used to encrypt credentials stored in the Easy BPM credential vault. Use a unique production value. |
 
 Local Ollama testing does not require a credential by default. Use `providerId: "ollama"` with model `llama3.2`. When no endpoint is supplied, the backend uses `http://localhost:11434/api/generate`.
@@ -63,6 +64,7 @@ PowerShell local example:
 
 ```powershell
 $env:GEMINI_API_KEY="AIza..."
+$env:AZURE_OPENAI_API_KEY="azure-openai-key"
 $env:EASY_BPM_SERVER_AI_ENCRYPTION_KEY="replace-with-a-production-secret"
 ```
 
@@ -100,10 +102,10 @@ For local agentic orchestration testing, keep API keys in your shell environment
 | --- | --- |
 | `EASY_BPM_ADMIN_API_BASE_URL` | Backend API URL used by the Admin Console. |
 | `EASY_BPM_MODELER_API_BASE_URL` | Backend API URL used by the Modeler. |
-| `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION` | Enables the feature-flagged Agent Process / Agent Board resource in the Modeler when set to `true`, `1`, `yes`, `on`, or `enabled`. Defaults to disabled. |
-| `EASY_BPM_MODELER_DEFAULT_AI_PROVIDER` | Default provider selected by the Agent Board. |
-| `EASY_BPM_MODELER_DEFAULT_AI_MODEL` | Default model selected by the Agent Board. |
-| `EASY_BPM_MODELER_DEFAULT_AI_CREDENTIAL_REF` | Default credential reference selected by the Agent Board. |
+| `EASY_BPM_MODELER_AGENTIC_ORCHESTRATION` | Enables the feature-flagged Agent Process resource in the Modeler when set to `true`, `1`, `yes`, `on`, or `enabled`. Defaults to disabled. |
+| `EASY_BPM_MODELER_DEFAULT_AI_PROVIDER` | Default provider selected by the Agent Process editor. |
+| `EASY_BPM_MODELER_DEFAULT_AI_MODEL` | Default model selected by the Agent Process editor. |
+| `EASY_BPM_MODELER_DEFAULT_AI_CREDENTIAL_REF` | Default credential reference selected by the Agent Process editor. |
 | `EASY_BPM_TASK_PORTAL_API_BASE_URL` | Backend API URL used by the Task Portal. |
 
 Run the feature-flagged modeler locally with:

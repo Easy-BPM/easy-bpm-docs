@@ -4,7 +4,7 @@ title: Processes API
 
 # Processes API
 
-Use the Processes API to deploy definitions, start instances, manage variables, operate runtime state, and correlate messages.
+Use the Processes API to deploy BPMN definitions, start instances, manage variables, operate runtime state, and correlate messages.
 
 ## Operations
 
@@ -108,72 +108,35 @@ Status: `200 OK`
 
 **Deploy a process definition**
 
-Upload and deploy a new BPMN process definition
+Upload and deploy a new BPMN process definition.
 
 | Property | Value |
 | --- | --- |
 | Operation ID | `deploy` |
 | Auth | Bearer token required unless security is disabled. |
-| Request DTO | `Easy BPM process JSON` |
-| Request content type | `application/json` |
+| Request DTO | `BPMN 2.0 XML` |
+| Request content type | `application/xml` |
 | Response DTO | [ProcessDefinition](./schemas) |
 
 ### Request body
 
 | Required | Content type | DTO/schema |
 | --- | --- | --- |
-| Yes | `application/json` | `Easy BPM process JSON` |
+| Yes | `application/xml` | `BPMN 2.0 XML` |
 
 Example request body:
 
-```json
-{
-  "processId": "expense-approval",
-  "key": "expense-approval",
-  "processName": "Expense Approval",
-  "description": "Review and approve expense requests.",
-  "variables": [
-    {
-      "name": "approved",
-      "initialValue": false
-    },
-    {
-      "name": "amount",
-      "initialValue": 0
-    }
-  ],
-  "nodes": [
-    {
-      "id": "start",
-      "name": "Start",
-      "type": "StartEvent"
-    },
-    {
-      "id": "manager-review",
-      "name": "Manager Review",
-      "type": "HumanTask",
-      "config": {
-        "assignee": "manager",
-        "formId": "expenseReview"
-      }
-    },
-    {
-      "id": "end",
-      "name": "End",
-      "type": "EndEvent"
-    }
-  ],
-  "flows": [
-    {
-      "source": "start",
-      "target": "manager-review"
-    },
-    {
-      "source": "manager-review",
-      "target": "end"
-    }
-  ]
-}
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <bpmn:process id="expense-approval" name="Expense Approval" isExecutable="true">
+    <bpmn:startEvent id="start" />
+    <bpmn:userTask id="manager-review" name="Manager Review" />
+    <bpmn:endEvent id="end" />
+    <bpmn:sequenceFlow id="flow_start_review" sourceRef="start" targetRef="manager-review" />
+    <bpmn:sequenceFlow id="flow_review_end" sourceRef="manager-review" targetRef="end" />
+  </bpmn:process>
+</bpmn:definitions>
 ```
 
 ### Example request
@@ -181,55 +144,11 @@ Example request body:
 ```bash
 curl -X POST "http://localhost:8080/processes" \
   -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-  "processId": "expense-approval",
-  "key": "expense-approval",
-  "processName": "Expense Approval",
-  "description": "Review and approve expense requests.",
-  "variables": [
-    {
-      "name": "approved",
-      "initialValue": false
-    },
-    {
-      "name": "amount",
-      "initialValue": 0
-    }
-  ],
-  "nodes": [
-    {
-      "id": "start",
-      "name": "Start",
-      "type": "StartEvent"
-    },
-    {
-      "id": "manager-review",
-      "name": "Manager Review",
-      "type": "HumanTask",
-      "config": {
-        "assignee": "manager",
-        "formId": "expenseReview"
-      }
-    },
-    {
-      "id": "end",
-      "name": "End",
-      "type": "EndEvent"
-    }
-  ],
-  "flows": [
-    {
-      "source": "start",
-      "target": "manager-review"
-    },
-    {
-      "source": "manager-review",
-      "target": "end"
-    }
-  ]
-}'
+  -H "Content-Type: application/xml" \
+  --data-binary @expense-approval.bpmn
 ```
+
+Legacy JSON process-definition deployment is no longer supported for new process imports or API deployments.
 
 ### Responses
 
@@ -248,7 +167,7 @@ Status: `200 OK`
   "processName": "Expense Approval",
   "description": "Review and approve expense requests.",
   "version": 3,
-  "definitionJson": "{\"processId\":\"expense-approval\",\"nodes\":[{\"id\":\"start\",\"type\":\"StartEvent\"},{\"id\":\"manager-review\",\"type\":\"HumanTask\"},{\"id\":\"end\",\"type\":\"EndEvent\"}],\"flows\":[{\"source\":\"start\",\"target\":\"manager-review\"},{\"source\":\"manager-review\",\"target\":\"end\"}]}"
+  "definitionJson": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"><bpmn:process id=\"expense-approval\" name=\"Expense Approval\" isExecutable=\"true\"><bpmn:startEvent id=\"start\"/><bpmn:userTask id=\"manager-review\" name=\"Manager Review\"/><bpmn:endEvent id=\"end\"/></bpmn:process></bpmn:definitions>"
 }
 ```
 
@@ -1099,7 +1018,7 @@ Status: `200 OK`
 
 **Send a message**
 
-Send a message to trigger message-based events in running process instances
+Send a message to trigger message-based events in running process instances.
 
 | Property | Value |
 | --- | --- |
@@ -1159,8 +1078,11 @@ Status: `200 OK`
 ```json
 {
   "status": "success",
-  "message": "Message received and process resumed",
+  "message": "Message received and processed",
+  "messageId": "invoice-INV-7788",
   "messageName": "invoice-received",
-  "correlationKey": "ORDER-12345"
+  "correlationKey": "ORDER-12345",
+  "correlated": true,
+  "duplicate": false
 }
 ```

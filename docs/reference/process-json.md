@@ -1,10 +1,20 @@
 ---
-title: Process JSON Reference
+title: Legacy Process JSON Reference
 ---
 
-# Process JSON Reference
+# Legacy Process JSON Reference
 
-Easy BPM process definitions are JSON objects with `processId`, `nodes`, and `flows`.
+Easy BPM no longer accepts new process deployments as legacy JSON graphs. Since August 13, 2026, new process definitions must be deployed as BPMN 2.0 XML through the Modeler or `POST /processes`.
+
+Keep this page only as a legacy reference when migrating older JSON-based definitions to BPMN XML.
+
+For current process authoring and deployment, use:
+
+- [Create a Process](../guides/create-process)
+- [Modeler](../platform/modeler)
+- [Processes API](../api/processes)
+
+Legacy Easy BPM process definitions were JSON objects with `processId`, `nodes`, and `flows`.
 
 ## Top-level fields
 

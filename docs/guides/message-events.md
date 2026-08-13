@@ -4,7 +4,27 @@ title: Message Events
 
 # Message Events
 
-Message events let external systems resume a waiting process by message name and correlation key.
+Message events let external systems start a process or resume a waiting one by message name and correlation key.
+
+## Start a process from a message
+
+```json
+{
+  "id": "message-start",
+  "name": "Order Received",
+  "type": "MessageStartEvent",
+  "message": {
+    "name": "order-received",
+    "correlationKeys": [],
+    "payload": [
+      { "sourceName": "orderId", "target": "process", "value": "orderId" },
+      { "sourceName": "customerId", "target": "process", "value": "customerId" }
+    ]
+  }
+}
+```
+
+Deploy a process with a `MessageStartEvent` when an external system should create a new process instance on demand. Use the same `POST /processes/messages` endpoint for both message starts and message catch events.
 
 ## Catch a message
 
@@ -15,7 +35,7 @@ Message events let external systems resume a waiting process by message name and
   "type": "MessageIntermediateCatchEvent",
   "message": {
     "name": "invoice-received",
-    "correlationKeys": ["${orderId}"],
+    "correlationKeys": ["orderId"],
     "payload": [
       { "sourceName": "invoiceId", "target": "process", "value": "invoiceId" },
       { "sourceName": "amount", "target": "process", "value": "invoiceAmount" }
@@ -24,7 +44,7 @@ Message events let external systems resume a waiting process by message name and
 }
 ```
 
-The process waits at this node until a matching message arrives.
+The process waits at this node until a matching message arrives. In the process definition, `correlationKeys` should contain process variable names such as `orderId`. At runtime, Easy BPM resolves those names against the current process-variable values.
 
 ## Send a message to Easy BPM
 
@@ -59,12 +79,12 @@ You can also send the same value as `messageId` in the request body when setting
 }
 ```
 
-Example response when the message resumes a waiting process:
+Example response when the message starts or resumes a process:
 
 ```json
 {
   "status": "success",
-  "message": "Message received and process resumed",
+  "message": "Message received and process correlated",
   "messageId": "invoice-INV-7788",
   "messageName": "invoice-received",
   "correlationKey": "ORDER-12345",
@@ -73,9 +93,9 @@ Example response when the message resumes a waiting process:
 }
 ```
 
-If the same `Idempotency-Key` or `messageId` is sent again, Easy BPM returns the stored result and does not resume the process a second time. The response includes `"duplicate": true`.
+If the same `Idempotency-Key` or `messageId` is sent again, Easy BPM returns the stored result and does not start or resume the process a second time. The response includes `"duplicate": true`.
 
-If no process is currently waiting for the given `messageName` and `correlationKey`, the response uses `"status": "unmatched"` and `"correlated": false`. In that case, check whether the process has reached the message catch event, whether the correlation key matches exactly, and whether the partner sent the message too early.
+If no deployable message start or waiting process matches the given `messageName` and `correlationKey`, the response uses `"status": "unmatched"` and `"correlated": false`. In that case, check whether the message name matches the deployed process definition, whether a waiting process has reached the message catch event, whether the correlation key matches exactly, and whether the partner sent the message too early.
 
 ## Throw a message
 
@@ -86,7 +106,7 @@ If no process is currently waiting for the given `messageName` and `correlationK
   "type": "MessageIntermediateThrowEvent",
   "message": {
     "name": "order-approved",
-    "correlationKeys": ["${orderId}"],
+    "correlationKeys": ["orderId"],
     "payload": [
       { "targetName": "orderId", "source": "variable", "value": "orderId" },
       { "targetName": "approved", "source": "variable", "value": "approved" }

@@ -14,7 +14,7 @@ Use the Tasks API to list visible work, claim shared tasks, inspect task context
 | `GET` | `/tasks/{id}` | Get task by ID |
 | `POST` | `/tasks/{id}/claim` | Claim a task |
 | `POST` | `/tasks/{id}/complete` | Complete a task |
-| `GET` | `/tasks/search` | Search tasks |
+| `POST` | `/tasks/search` | Search tasks |
 
 <a id="get-tasks"></a>
 ## GET /tasks
@@ -23,11 +23,15 @@ Use the Tasks API to list visible work, claim shared tasks, inspect task context
 
 Retrieve all tasks with pagination
 
+Completed task rows continue to return their last saved task variable snapshot until maintenance cleanup removes the task record.
+
 | Property | Value |
 | --- | --- |
 | Operation ID | `getTasks` |
 | Auth | Bearer token required unless security is disabled. |
 | Response DTO | [PageTaskResponseDto](./schemas) |
+
+Completed task entries keep their submitted `variables` in the response so historical task reviews can show the final task payload.
 
 ### Parameters
 
@@ -113,11 +117,15 @@ Status: `200 OK`
 
 Retrieve a specific task by its ID
 
+If the task is already `COMPLETED`, the response still includes the last saved task variables until the task is purged by retention cleanup or an explicit maintenance purge.
+
 | Property | Value |
 | --- | --- |
 | Operation ID | `getTaskById` |
 | Auth | Bearer token required unless security is disabled. |
 | Response DTO | [TaskResponseDto](./schemas) |
+
+Completed task responses continue to include the task's submitted variables after the task finishes. Use this endpoint when operators or client apps need to review the final task payload.
 
 ### Parameters
 
@@ -296,12 +304,39 @@ Status: `200 OK`
 Task completed successfully
 ```
 
-<a id="get-tasks-search"></a>
-## GET /tasks/search
+<a id="post-tasks-search"></a>
+## POST /tasks/search
 
 **Search tasks**
 
-Search tasks by assignee and/or status with pagination
+Search tasks with structured filters and pagination.
+
+Filters are combined with `AND`. The endpoint respects the caller's visibility rules, so non-admin users only see tasks assigned to them or available to their groups.
+
+Supported filter fields:
+
+| Field | Notes |
+| --- | --- |
+| `status` / `state` | Task status such as `PENDING` or `COMPLETED`. |
+| `assignee` | Task assignee. Use `UNASSIGNED` to match empty assignees. |
+| `candidateUser` / `candidate_user` | Candidate user membership. |
+| `candidateGroup` / `candidate_group` | Candidate group membership. |
+| `processInstance` / `processInstanceId` / `process_instance_id` | Process instance id. |
+| `processDefinition` / `processDefinitionId` / `process_definition_id` / `processDefinitionKey` / `process_definition_key` | Process definition id, key, or name. |
+| `taskName` / `task_name` / `title` / `name` | Task title. |
+| `createdAt` / `created_at` / `createdDate` / `created_date` | Task creation timestamp or date. |
+| `variable` | Task or process variable, addressed by `name` and `scope`. |
+
+Supported operators:
+
+| Operator | Notes |
+| --- | --- |
+| `EQUALS`, `NOT_EQUALS` | Exact match. |
+| `IN`, `NOT_IN` | Match against multiple values. |
+| `GREATER_THAN`, `GREATER_THAN_OR_EQUAL`, `LESS_THAN`, `LESS_THAN_OR_EQUAL` | Numeric or date comparisons. |
+| `CONTAINS`, `STARTS_WITH`, `ENDS_WITH` | Case-insensitive string matching. |
+
+Completed task responses continue to include the last saved task variable snapshot until maintenance cleanup removes the task record.
 
 | Property | Value |
 | --- | --- |
@@ -309,19 +344,49 @@ Search tasks by assignee and/or status with pagination
 | Auth | Bearer token required unless security is disabled. |
 | Response DTO | [PageTaskResponseDto](./schemas) |
 
+### Request body
+
+| Required | Content type | DTO/schema |
+| --- | --- | --- |
+| Yes | `application/json` | [TaskSearchRequestDto](./schemas) |
+
+Example request body:
+
+```json
+{
+  "filters": [
+    {
+      "field": "status",
+      "operator": "EQUALS",
+      "value": "PENDING"
+    },
+    {
+      "field": "taskName",
+      "operator": "CONTAINS",
+      "value": "review"
+    }
+  ]
+}
+```
+
 ### Parameters
 
 | Name | In | Required | Type | Description |
 | --- | --- | --- | --- | --- |
-| `assignee` | query | No | string |  |
-| `status` | query | No | string |  |
 | `pageable` | query | Yes | Pageable |  |
 
 ### Example request
 
 ```bash
-curl -X GET "http://localhost:8080/tasks/search?assignee=manager&status=PENDING&page=0&size=20" \
-  -H "Authorization: Bearer $TOKEN"
+curl -X POST "http://localhost:8080/tasks/search?page=0&size=20" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+    "filters": [
+      { "field": "status", "operator": "EQUALS", "value": "PENDING" },
+      { "field": "assignee", "operator": "EQUALS", "value": "manager" }
+    ]
+  }'
 ```
 
 ### Responses
