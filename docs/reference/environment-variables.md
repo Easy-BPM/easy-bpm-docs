@@ -96,6 +96,18 @@ For local agentic orchestration testing, keep API keys in your shell environment
 | `EASY_BPM_SERVER_SECURITY_BOOTSTRAP_ADMIN_GROUP_CODE` | `ADMIN` |
 | `EASY_BPM_SERVER_SECURITY_BOOTSTRAP_ADMIN_GROUP_NAME` | `Administrators` |
 
+## Keycloak and OIDC
+
+| Variable | Purpose |
+| --- | --- |
+| `EASYBPM_AUTHENTICATION_PROVIDER` | Set to `keycloak` or `oidc` to validate external OIDC tokens. Defaults to `local`. |
+| `EASYBPM_OIDC_ISSUER_URI` | OIDC issuer URL. Required when OIDC is enabled. |
+| `EASYBPM_OIDC_JWK_SET_URI` | Optional internal JWK endpoint; useful when the backend reaches Keycloak over a Docker network. |
+| `EASYBPM_OIDC_CLIENT_ID` | OIDC client ID. Defaults to `easybpm`. |
+| `EASYBPM_OIDC_AUDIENCE` | Required audience claim. Leave unset to disable audience validation. |
+| `EASYBPM_OIDC_GROUP_CLAIM` | Token claim containing groups. Defaults to `groups`. |
+| `EASYBPM_OIDC_USERNAME_CLAIM` | Token claim used as the Easy BPM username. Defaults to `preferred_username`. |
+
 ## Web apps
 
 | Variable | Purpose |

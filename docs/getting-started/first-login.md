@@ -6,6 +6,8 @@ title: First Login
 
 Easy BPM creates a first administrator user on startup. Use this account to sign in, create real customer users, and assign permissions.
 
+This applies when using the default local authentication. If your environment uses Keycloak/OIDC, users sign in through Keycloak instead; see [Keycloak and OIDC](../deployment/keycloak).
+
 ## Default local account
 
 | Username | Password |

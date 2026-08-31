@@ -44,6 +44,7 @@ const sidebars: SidebarsConfig = {
         'api/overview',
         'api/swagger',
         'api/authentication',
+        'api/workspace-secrets',
         'api/agent-processes',
         'api/processes',
         'api/tasks',
@@ -62,6 +63,7 @@ const sidebars: SidebarsConfig = {
       label: 'Deployment',
       items: [
         'deployment/kubernetes',
+        'deployment/keycloak',
         'deployment/capacity-planning',
         'deployment/observability',
       ],

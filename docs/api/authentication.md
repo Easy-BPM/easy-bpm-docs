@@ -4,20 +4,24 @@ title: Authentication API
 
 # Authentication API
 
-Use the Authentication API to sign users in and inspect the current JWT session.
+Use the Authentication API to inspect the current user and discover the configured sign-in mode. Easy BPM supports local username/password authentication and OIDC authentication through Keycloak or another compatible provider.
 
 ## Token flow
 
+For local authentication:
+
 1. Call `POST /auth/login` with username and password.
-2. Store the returned JWT in your client session.
+2. Store the returned Easy BPM JWT in your client session.
 3. Send `Authorization: Bearer <token>` on protected requests.
-4. Call `GET /auth/me` to validate the current session and inspect permissions.
+
+For OIDC authentication, the web applications obtain an access token from the configured provider using the authorization-code flow with PKCE, then send that token on protected requests. Call `GET /auth/config` to determine which flow is enabled, and `GET /auth/me` to inspect the mapped Easy BPM identity and permissions.
 
 ## Operations
 
 | Method | Path | Summary |
 | --- | --- | --- |
 | `POST` | `/auth/login` | login |
+| `GET` | `/auth/config` | configured authentication provider |
 | `GET` | `/auth/me` | me |
 
 <a id="post-auth-login"></a>
@@ -113,7 +117,9 @@ Status: `200 OK`
 
 ```json
 {
+  "id": 1,
   "username": "admin",
+  "identityProvider": "LOCAL",
   "groups": [
     "ADMIN"
   ],
@@ -124,3 +130,9 @@ Status: `200 OK`
   ]
 }
 ```
+
+## GET /auth/config
+
+This endpoint is public so clients can select the correct login flow. With local authentication it returns `{ "provider": "local" }`. With Keycloak/OIDC it also returns the issuer, client ID, and authorization, token, and logout endpoints used by the web applications.
+
+See [Keycloak and OIDC](../deployment/keycloak) for the server configuration and role mapping.
