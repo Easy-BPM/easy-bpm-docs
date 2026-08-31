@@ -463,6 +463,12 @@ $env:GEMINI_API_KEY="AIza..."
 
 The deploy API requires a non-empty `goal`. If you include `provider`, it must include non-empty `providerId` and `modelName`. When `processKey` is omitted, the backend falls back to `key`, then to a slugified `processName`.
 
+### Agent Process templates
+
+The Agent Process editor includes starter templates for Customer Support Resolution, Invoice Exception Review, and Employee Onboarding Coordinator. Select a template, then review and adapt the process key, goal, instructions, constraints, provider, model, endpoint, and credential reference before deployment.
+
+Templates are editable starting points only. They do not create or deploy an agent automatically, and provider credentials must remain configured in the backend runtime environment.
+
 BPM invocation properties:
 
 | Property | Example | Notes |
@@ -511,6 +517,12 @@ Deploy order:
 2. Create and deploy the Agent Process from the Agent Process resource.
 3. Add an `Agent Process` node to the BPM process and set `Agent Process Key` to the deployed agent key.
 4. Deploy the BPM process, start an instance, and inspect the process variables for the agent decision/output.
+
+## Documentation Note
+
+Use a Documentation Note to add context, assumptions, business rules, or implementation notes directly on the process canvas. Add it from the `Documentation` section of the component palette, then set its title and note text in the properties panel.
+
+Documentation Notes can be visually associated with other diagram elements. They are for readers of the model only: Easy BPM does not export them as executable BPMN nodes, and they do not affect process execution.
 
 ## Call Activity
 
