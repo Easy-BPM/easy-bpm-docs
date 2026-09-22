@@ -1,16 +1,24 @@
 {
-  "docs": [
+  "getStarted": [
     "intro",
     {
       "type": "category",
-      "label": "Getting Started",
+      "label": "Get Started",
       "items": [
-        "getting-started/quick-start",
-        "getting-started/install",
-        "getting-started/configuration",
         "getting-started/first-login"
       ]
     },
+    {
+      "type": "category",
+      "label": "Setup",
+      "items": [
+        "getting-started/quick-start",
+        "getting-started/install",
+        "getting-started/configuration"
+      ]
+    }
+  ],
+  "docs": [
     {
       "type": "category",
       "label": "Build Processes",
@@ -37,26 +45,6 @@
     },
     {
       "type": "category",
-      "label": "API Reference",
-      "items": [
-        "api/overview",
-        "api/swagger",
-        "api/authentication",
-        "api/agent-processes",
-        "api/processes",
-        "api/tasks",
-        "api/forms",
-        "api/documents",
-        "api/code-tasks",
-        "api/incidents",
-        "api/admin-security",
-        "api/admin-maintenance",
-        "api/ai-credentials",
-        "api/schemas"
-      ]
-    },
-    {
-      "type": "category",
       "label": "Deployment",
       "items": [
         "deployment/kubernetes",
@@ -75,5 +63,21 @@
         "reference/examples"
       ]
     }
+  ],
+  "api": [
+    "api/overview",
+    "api/swagger",
+    "api/authentication",
+    "api/agent-processes",
+    "api/processes",
+    "api/tasks",
+    "api/forms",
+    "api/documents",
+    "api/code-tasks",
+    "api/incidents",
+    "api/admin-security",
+    "api/admin-maintenance",
+    "api/ai-credentials",
+    "api/schemas"
   ]
 }

@@ -90,3 +90,11 @@
   color: var(--easybpm-muted);
   margin-bottom: 0;
 }
+
+.easybpm-concept-diagram {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin: 1.5rem auto;
+}

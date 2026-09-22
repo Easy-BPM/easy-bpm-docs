@@ -7,9 +7,9 @@
   padding: 5rem 0 4rem;
   background:
     linear-gradient(90deg, rgba(2, 10, 32, .9) 0%, rgba(0, 44, 140, .72) 48%, rgba(11, 92, 255, .18) 100%),
-    url('/img/hero/easybpm-process-orchestration-hero.png');
+    url('/img/hero/easybpm-process-orchestration-hero-v2.png');
   background-size: cover;
-  background-position: center;
+  background-position: center right;
   color: white;
   position: relative;
   overflow: hidden;
@@ -42,6 +42,7 @@
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 3rem 0;
+    background-position: left center;
   }
 }
 

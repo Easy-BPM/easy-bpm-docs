@@ -1,11 +1,11 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
-  docs: [
+  getStarted: [
     'intro',
     {
       type: 'category',
-      label: 'Get started',
+      label: 'Get Started',
       items: [
         'getting-started/run-first-process',
         'getting-started/build-first-agent',
@@ -31,9 +31,33 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+  ],
+  docs: [
     {
       type: 'category',
-      label: 'Build processes',
+      label: 'Introduction',
+      items: [
+        'introduction/process',
+        'introduction/process-instances',
+        'introduction/human-tasks',
+        'introduction/automated-tasks',
+        'introduction/messages',
+        'introduction/events',
+        'introduction/gateways',
+        'introduction/conditions',
+        'introduction/variables',
+        'introduction/forms',
+        'introduction/documents',
+        'introduction/subprocesses',
+        'introduction/access-management',
+        'introduction/incidents',
+        'introduction/code-tasks',
+        'introduction/process-design',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Build Processes',
       items: [
         'guides/create-process',
         'guides/forms',
@@ -47,33 +71,12 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Platform apps',
+      label: 'Platform Apps',
       items: [
         'platform/modeler',
         'platform/task-portal',
         'platform/admin',
         'platform/operations',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'API reference',
-      items: [
-        'api/overview',
-        'api/swagger',
-        'api/authentication',
-        'api/workspace-secrets',
-        'api/agent-processes',
-        'api/processes',
-        'api/tasks',
-        'api/forms',
-        'api/documents',
-        'api/code-tasks',
-        'api/incidents',
-        'api/admin-security',
-        'api/admin-maintenance',
-        'api/ai-credentials',
-        'api/schemas',
       ],
     },
     {
@@ -98,6 +101,23 @@ const sidebars: SidebarsConfig = {
         'reference/examples',
       ],
     },
+  ],
+  api: [
+    'api/overview',
+    'api/swagger',
+    'api/authentication',
+    'api/workspace-secrets',
+    'api/agent-processes',
+    'api/processes',
+    'api/tasks',
+    'api/forms',
+    'api/documents',
+    'api/code-tasks',
+    'api/incidents',
+    'api/admin-security',
+    'api/admin-maintenance',
+    'api/ai-credentials',
+    'api/schemas',
   ],
 };
 

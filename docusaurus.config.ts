@@ -66,6 +66,12 @@ const config: Config = {
     ],
   ],
 
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
+
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
@@ -79,17 +85,22 @@ const config: Config = {
       },
       items: [
         {
-          to: '/docs/next/getting-started/run-first-process',
-          label: 'Get started',
+          type: 'docSidebar',
+          sidebarId: 'getStarted',
+          label: 'Get Started',
           position: 'left',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'docs',
+          to: '/docs/next/introduction/process',
           position: 'left',
           label: 'Docs',
         },
-        {to: '/docs/api/overview', label: 'API', position: 'left'},
+        {
+          type: 'docSidebar',
+          sidebarId: 'api',
+          label: 'API',
+          position: 'left',
+        },
         {to: '/docs/guides/create-process', label: 'Guides', position: 'left'},
         {
           type: 'docsVersionDropdown',

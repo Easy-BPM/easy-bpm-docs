@@ -49,6 +49,10 @@ The screenshots in this page use light mode. Use the sun/moon button in the top 
 
 ![Modeler component palette](/img/screenshots/modeler/modeler-components-palette.png)
 
+## Modeler reference and build guides
+
+Use this page as a reference for the Modeler interface, component palette, and property fields. Use the [Build Processes](../guides/create-process.md) guides for end-to-end workflows, runtime behavior, API calls, and operational examples. Some configuration appears in both places so that each component remains understandable in the Modeler while the guides can explain how it behaves after deployment.
+
 ## Common properties
 
 Most executable components share these properties.
@@ -117,7 +121,9 @@ ${approved} == false
 
 Parallel gateway branches should normally be unconditional.
 
-## Participant
+## Diagram structure
+
+### Participant
 
 ![Participant component](/img/screenshots/modeler/component-participant.png)
 
@@ -131,7 +137,11 @@ Use a participant/pool as a visual BPMN lane or container. It does not execute p
 | `Width` | `560` | Minimum is enforced by the UI. |
 | `Height` | `190` | Minimum is enforced by the UI. |
 
-## Start Event
+## Flow events
+
+Use these components to define where a process starts, finishes, or pauses. See [Create a Process](../guides/create-process.md) for an end-to-end process example.
+
+### Start Event
 
 ![Start Event component](/img/screenshots/modeler/component-start-event.png)
 
@@ -150,7 +160,7 @@ Validation rules:
 | No incoming flow | A start node cannot be reached from another node. |
 | At least one outgoing flow | It must route to the first real step. |
 
-## End Event
+### End Event
 
 ![End Event component](/img/screenshots/modeler/component-end-event.png)
 
@@ -169,7 +179,7 @@ Validation rules:
 | At least one incoming flow | The process must be able to reach the end. |
 | No outgoing flow | End nodes finish the path. |
 
-## Timer Event
+### Timer Event
 
 ![Timer Event component](/img/screenshots/modeler/component-timer-event.png)
 
@@ -194,7 +204,11 @@ Example export:
 }
 ```
 
-## Human Task
+## Task components
+
+Tasks represent work performed by people, external APIs, internal mappings, custom code, or AI. The Build Processes guides provide deeper runtime examples for [User Tasks](../guides/user-tasks.md), [API Tasks](../guides/api-tasks.md), and [Code Tasks](../guides/code-tasks.md).
+
+### Human Task
 
 ![Human Task component](/img/screenshots/modeler/component-human-task.png)
 
@@ -242,7 +256,7 @@ Example configuration:
 
 Use required fields in the form schema when the task must validate data before completion.
 
-## API Task
+### API Task
 
 ![API Task component](/img/screenshots/modeler/component-api-task.png)
 
@@ -300,7 +314,7 @@ API key auth example:
 }
 ```
 
-## Service Task
+### Service Task
 
 ![Service Task component](/img/screenshots/modeler/component-service-task.png)
 
@@ -338,7 +352,7 @@ Example:
 }
 ```
 
-## Code Task
+### Code Task
 
 ![Code Task component](/img/screenshots/modeler/component-code-task.png)
 
@@ -376,7 +390,7 @@ Example modeler export:
 }
 ```
 
-## AI Task (BETA)
+### AI Task (BETA)
 
 Use an AI task to send prompts to an AI provider and store the response in a process variable.
 
@@ -409,7 +423,7 @@ Example:
 }
 ```
 
-## Agent Process (Feature Flag)
+### Agent Process (Feature Flag)
 
 Agent Process is the feature-flagged resource for agentic orchestration. Use it when a BPM process needs to call an AI-driven agent that can evaluate context, produce a structured decision, and write outputs back to process variables.
 
@@ -463,7 +477,7 @@ $env:GEMINI_API_KEY="AIza..."
 
 The deploy API requires a non-empty `goal`. If you include `provider`, it must include non-empty `providerId` and `modelName`. When `processKey` is omitted, the backend falls back to `key`, then to a slugified `processName`.
 
-### Agent Process templates
+#### Agent Process templates
 
 The Agent Process editor includes starter templates for Customer Support Resolution, Invoice Exception Review, and Employee Onboarding Coordinator. Select a template, then review and adapt the process key, goal, instructions, constraints, provider, model, endpoint, and credential reference before deployment.
 
@@ -518,13 +532,19 @@ Deploy order:
 3. Add an `Agent Process` node to the BPM process and set `Agent Process Key` to the deployed agent key.
 4. Deploy the BPM process, start an instance, and inspect the process variables for the agent decision/output.
 
-## Documentation Note
+## Documentation components
+
+### Documentation Note
 
 Use a Documentation Note to add context, assumptions, business rules, or implementation notes directly on the process canvas. Add it from the `Documentation` section of the component palette, then set its title and note text in the properties panel.
 
 Documentation Notes can be visually associated with other diagram elements. They are for readers of the model only: Easy BPM does not export them as executable BPMN nodes, and they do not affect process execution.
 
-## Call Activity
+## Subprocess components
+
+Use call activities to compose reusable processes. See [Call Activities](../guides/call-activities.md) for runtime relationships, variable mapping, and error handling.
+
+### Call Activity
 
 ![Call Activity component](/img/screenshots/modeler/component-call-activity.png)
 
@@ -566,7 +586,9 @@ Example:
 }
 ```
 
-## Exclusive Gateway
+## Gateway components
+
+### Exclusive Gateway
 
 ![Exclusive Gateway component](/img/screenshots/modeler/component-exclusive-gateway.png)
 
@@ -592,7 +614,7 @@ Flow to finance_review: ${approved} == true
 Flow to rejection_notice: ${approved} == false
 ```
 
-## Parallel Gateway
+### Parallel Gateway
 
 ![Parallel Gateway component](/img/screenshots/modeler/component-parallel-gateway.png)
 
@@ -605,7 +627,11 @@ Use a parallel gateway to fork into multiple branches or join multiple branches.
 
 Do not use branch conditions on parallel gateway outgoing flows unless you have a very specific runtime reason. The modeler warns when parallel outgoing flows have conditions.
 
-## Message Start
+## Message event components
+
+Message events connect process execution to internal or external publishers. See [Message Events](../guides/message-events.md) for correlation, idempotency, and API examples.
+
+### Message Start
 
 ![Message Start component](/img/screenshots/modeler/component-message-start.png)
 
@@ -639,7 +665,7 @@ Example:
 }
 ```
 
-## Message Intermediate Catch
+### Message Intermediate Catch
 
 ![Message Catch component](/img/screenshots/modeler/component-message-catch.png)
 
@@ -674,7 +700,7 @@ Example:
 }
 ```
 
-## Message Intermediate Throw
+### Message Intermediate Throw
 
 Use a throw event when the process should publish/send a message.
 
@@ -705,7 +731,11 @@ Example:
 }
 ```
 
-## Error Boundary
+## Boundary event components
+
+Boundary events attach to active work and provide alternate paths for errors, messages, or timeouts.
+
+### Error Boundary
 
 ![Error Boundary component](/img/screenshots/modeler/component-error-boundary.png)
 
@@ -742,7 +772,7 @@ Example recovery path:
 
 When an API task fails and this boundary is attached, the instance follows the boundary path and is not marked `FAILED`. Without a boundary, the instance is marked `FAILED`, including worker timeouts after 2 minutes, and BPM Admin displays the error.
 
-## Message Boundary
+### Message Boundary
 
 ![Message Boundary component](/img/screenshots/modeler/component-message-boundary.png)
 
@@ -778,7 +808,7 @@ Example:
 }
 ```
 
-## Timer Boundary
+### Timer Boundary
 
 Attach a timer boundary to a task when the task has a timeout path.
 
@@ -803,7 +833,9 @@ Example:
 }
 ```
 
-## Forms
+## Form modeler
+
+For form deployment and API retrieval, see the [Forms](../guides/forms.md) build guide.
 
 The form modeler creates JSON-schema based forms that can be attached to human tasks by form key.
 
