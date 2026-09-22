@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:easy="https://easybpm.local/bpmn/extensions" id="Definitions_support-triage" targetNamespace="https://easybpm.local/process/support-triage">
+  <bpmn:process id="support-triage" name="Support Triage" isExecutable="true">
+    <bpmn:extensionElements>
+      <easy:metadata><![CDATA[{"version":"1.0"}]]></easy:metadata>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="start" name="start">
+      <bpmn:extensionElements>
+        <easy:node><![CDATA[{"id":"start","name":"start","type":"StartEvent","position":{"x":170,"y":130},"width":40,"height":40,"next":["triage-with-agent"]}]]></easy:node>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="triage-with-agent" name="Triage with agent">
+      <bpmn:extensionElements>
+        <easy:node><![CDATA[{"id":"triage-with-agent","name":"Triage with agent","type":"AgentProcessCall","position":{"x":370,"y":120},"width":150,"height":70,"next":["end"],"config":{"agentProcessKey":"support-triage-agent","goal":"Classify the current support request.","waitForCompletion":true,"timeoutSeconds":120,"inputs":[{"targetName":"customerMessage","type":"string","source":"variable","value":"customerMessage"}],"outputs":[{"source":"variable","sourceValue":"priority","type":"string","targetVariable":"suggestedPriority"}]}}]]></easy:node>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="end" name="end">
+      <bpmn:extensionElements>
+        <easy:node><![CDATA[{"id":"end","name":"end","type":"EndEvent","position":{"x":700,"y":130},"width":40,"height":40,"next":[]}]]></easy:node>
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1_start_triage-with-agent" sourceRef="start" targetRef="triage-with-agent"/>
+    <bpmn:sequenceFlow id="Flow_2_triage-with-agent_end" sourceRef="triage-with-agent" targetRef="end"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1">
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="170" y="130" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="triage-with-agent_di" bpmnElement="triage-with-agent">
+        <dc:Bounds x="370" y="120" width="150" height="70"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="700" y="130" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_start_triage-with-agent_di" bpmnElement="Flow_1_start_triage-with-agent"/>
+      <bpmndi:BPMNEdge id="Flow_2_triage-with-agent_end_di" bpmnElement="Flow_2_triage-with-agent_end"/>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

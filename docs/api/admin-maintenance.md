@@ -12,13 +12,13 @@ Always run a dry run first.
 
 | Method | Path | Summary |
 | --- | --- | --- |
-| `GET` | `/admin/maintenance/retention` | Get saved data-retention settings. |
-| `PUT` | `/admin/maintenance/retention` | Update data-retention settings used by scheduled cleanup. |
-| `POST` | `/admin/maintenance/retention/preview` | Preview cleanup using the configured retention policy. |
-| `POST` | `/admin/maintenance/retention/run` | Execute cleanup using the configured retention policy. |
-| `POST` | `/admin/maintenance/purge-completed-instances` | Preview or execute purge of completed instances. |
-| `POST` | `/admin/maintenance/purge-completed-tasks` | Preview or execute purge of completed tasks. |
-| `DELETE` | `/admin/maintenance/process-definitions/{id}` | Preview or delete a process definition and related runtime data. |
+| `DELETE` | `/admin/maintenance/process-definitions/{id}` | Delete process definition |
+| `POST` | `/admin/maintenance/purge-completed-instances` | Purge completed instances |
+| `POST` | `/admin/maintenance/purge-completed-tasks` | Purge completed tasks |
+| `GET` | `/admin/maintenance/retention` | Get data retention settings |
+| `PUT` | `/admin/maintenance/retention` | Update data retention settings |
+| `POST` | `/admin/maintenance/retention/preview` | Preview configured retention |
+| `POST` | `/admin/maintenance/retention/run` | Run configured retention |
 
 ## GET /admin/maintenance/retention
 

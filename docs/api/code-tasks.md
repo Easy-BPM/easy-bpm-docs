@@ -15,7 +15,6 @@ Use the Code Tasks API to upload JVM JARs, discover classes and methods, and ins
 | `GET` | `/code-tasks/jar/{jarId}/classes/{className}/methods` | getClassMethods |
 | `POST` | `/code-tasks/upload` | uploadJar |
 
-<a id="get-code-tasks-executions"></a>
 ## GET /code-tasks/executions
 
 | Property | Value |

@@ -16,16 +16,16 @@ function HomepageHeader() {
           Build business processes your developers can ship and operate.
         </Heading>
         <p className={styles.heroSubtitle}>
-          Install the platform, model workflows, connect APIs, run human tasks, execute code tasks, and manage process operations through a documented REST API.
+          Run your first process, connect AI agents, build human tasks, and operate the workflow from model to production.
         </p>
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/getting-started/quick-start">
-            Start with Quick Start
+            to="/docs/next/getting-started/run-first-process">
+            Run your first BPMN process
           </Link>
           <Link className="button button--secondary button--lg" to="/docs/api/authentication">
-            View API Reference
+            View API reference
           </Link>
         </div>
       </div>
@@ -47,13 +47,13 @@ export default function Home(): ReactNode {
               <h2>Model processes</h2>
               <p>Create start events, user tasks, API tasks, gateways, message events, timers, and subprocesses.</p>
             </Link>
-            <Link className={styles.card} to="/docs/guides/user-tasks">
-              <h2>Run human work</h2>
-              <p>Assign tasks, claim group work, render dynamic forms, complete work, and map variables forward.</p>
+            <Link className={styles.card} to="/docs/next/getting-started/build-first-agent">
+              <h2>Integrate AI agents</h2>
+              <p>Deploy reusable agent definitions, call them from BPM processes, and map AI outputs into variables.</p>
             </Link>
-            <Link className={styles.card} to="/docs/guides/code-tasks">
-              <h2>Execute code</h2>
-              <p>Upload JVM JARs, discover classes and methods, configure Code Task nodes, and audit execution.</p>
+            <Link className={styles.card} to="/docs/next/getting-started/build-human-tasks">
+              <h2>Orchestrate human tasks</h2>
+              <p>Attach forms, assign people or groups, complete work in the Task Portal, and resume the process.</p>
             </Link>
             <Link className={styles.card} to="/docs/deployment/kubernetes">
               <h2>Deploy the stack</h2>

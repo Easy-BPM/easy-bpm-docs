@@ -1,0 +1,35 @@
+flowchart LR
+  Start[Process instance reaches API or service task]
+  Backend[Backend creates worker request]
+  Queue[(RabbitMQ service-task-requests)]
+
+  subgraph Workers[Horizontal worker pool]
+    W1[Worker replica 1]
+    W2[Worker replica 2]
+    WN[Worker replica N]
+  end
+
+  External[External API or AI provider]
+  Completion[(RabbitMQ completions)]
+  BackendComplete[Backend advances instance]
+  DB[(PostgreSQL state)]
+  Retry[Retry with backoff]
+  DLQ[DLQ after retry exhaustion]
+
+  Start --> Backend
+  Backend --> DB
+  Backend --> Queue
+  Queue --> W1
+  Queue --> W2
+  Queue --> WN
+  W1 --> External
+  W2 --> External
+  WN --> External
+  External --> Completion
+  Completion --> BackendComplete
+  BackendComplete --> DB
+  W1 --> Retry
+  W2 --> Retry
+  WN --> Retry
+  Retry --> Queue
+  Retry --> DLQ

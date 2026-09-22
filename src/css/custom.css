@@ -6,34 +6,40 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #12825c;
-  --ifm-color-primary-dark: #0f7452;
-  --ifm-color-primary-darker: #0d6749;
-  --ifm-color-primary-darkest: #0a513a;
-  --ifm-color-primary-light: #17966c;
-  --ifm-color-primary-lighter: #1da579;
-  --ifm-color-primary-lightest: #2fc08f;
+  --ifm-color-primary: #0b5cff;
+  --ifm-color-primary-dark: #004fe6;
+  --ifm-color-primary-darker: #0046cc;
+  --ifm-color-primary-darkest: #0038a3;
+  --ifm-color-primary-light: #2b73ff;
+  --ifm-color-primary-lighter: #4b88ff;
+  --ifm-color-primary-lightest: #8bb3ff;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --easybpm-ink: #17211d;
-  --easybpm-muted: #587166;
-  --easybpm-panel: #f4f8f6;
-  --easybpm-line: #dce8e3;
+  --easybpm-brand-blue: #0b5cff;
+  --easybpm-brand-blue-dark: #0038a3;
+  --easybpm-brand-blue-light: #6ea2ff;
+  --easybpm-ink: #111827;
+  --easybpm-muted: #5d6b82;
+  --easybpm-panel: #f4f8ff;
+  --easybpm-line: #dbe6ff;
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #44d890;
-  --ifm-color-primary-dark: #31cb7f;
-  --ifm-color-primary-darker: #29be75;
-  --ifm-color-primary-darkest: #20995d;
-  --ifm-color-primary-light: #63e0a3;
-  --ifm-color-primary-lighter: #7de7b4;
-  --ifm-color-primary-lightest: #a8f0ce;
+  --ifm-color-primary: #6ea2ff;
+  --ifm-color-primary-dark: #4b88ff;
+  --ifm-color-primary-darker: #2b73ff;
+  --ifm-color-primary-darkest: #0b5cff;
+  --ifm-color-primary-light: #96bcff;
+  --ifm-color-primary-lighter: #b7d1ff;
+  --ifm-color-primary-lightest: #d8e6ff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --easybpm-ink: #eaf7f1;
-  --easybpm-muted: #abc6bb;
-  --easybpm-panel: #13211b;
-  --easybpm-line: #263b32;
+  --easybpm-brand-blue: #0b5cff;
+  --easybpm-brand-blue-dark: #0038a3;
+  --easybpm-brand-blue-light: #6ea2ff;
+  --easybpm-ink: #eef5ff;
+  --easybpm-muted: #b9c7df;
+  --easybpm-panel: #101827;
+  --easybpm-line: #263654;
 }
 
 .navbar {
@@ -45,12 +51,20 @@
 }
 
 .theme-doc-markdown table {
-  display: table;
+  display: block;
+  overflow-x: auto;
   width: 100%;
 }
 
 .theme-doc-markdown th {
-  white-space: nowrap;
+  white-space: normal;
+}
+
+.theme-doc-markdown td,
+.theme-doc-markdown th,
+.theme-doc-markdown td code,
+.theme-doc-markdown th code {
+  overflow-wrap: anywhere;
 }
 
 .easybpm-card-grid {

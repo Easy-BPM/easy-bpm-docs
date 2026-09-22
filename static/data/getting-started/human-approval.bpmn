@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:easy="https://easybpm.local/bpmn/extensions" id="Definitions_human-approval" targetNamespace="https://easybpm.local/process/human-approval">
+  <bpmn:process id="human-approval" name="Human Approval" isExecutable="true">
+    <bpmn:extensionElements>
+      <easy:metadata><![CDATA[{"version":"1.0"}]]></easy:metadata>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="start" name="start">
+      <bpmn:extensionElements>
+        <easy:node><![CDATA[{"id":"start","name":"start","type":"StartEvent","position":{"x":170,"y":130},"width":40,"height":40,"next":["manager-review"]}]]></easy:node>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:userTask id="manager-review" name="Manager Review">
+      <bpmn:extensionElements>
+        <easy:node><![CDATA[{"id":"manager-review","name":"Manager Review","type":"HumanTask","position":{"x":370,"y":120},"width":140,"height":70,"next":["end"],"config":{"assignee":"admin","formId":"managerApproval","inputs":[{"targetName":"requesterName","type":"string","source":"variable","value":"requesterName"},{"targetName":"amount","type":"number","source":"variable","value":"amount"},{"targetName":"description","type":"string","source":"variable","value":"description"}],"outputs":[{"target":"process","sourceName":"approved","value":"approved"},{"target":"process","sourceName":"comment","value":"managerComment"}]}}]]></easy:node>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:endEvent id="end" name="end">
+      <bpmn:extensionElements>
+        <easy:node><![CDATA[{"id":"end","name":"end","type":"EndEvent","position":{"x":700,"y":130},"width":40,"height":40,"next":[]}]]></easy:node>
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1_start_manager-review" sourceRef="start" targetRef="manager-review"/>
+    <bpmn:sequenceFlow id="Flow_2_manager-review_end" sourceRef="manager-review" targetRef="end"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1">
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="170" y="130" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="manager-review_di" bpmnElement="manager-review">
+        <dc:Bounds x="370" y="120" width="140" height="70"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="700" y="130" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_start_manager-review_di" bpmnElement="Flow_1_start_manager-review"/>
+      <bpmndi:BPMNEdge id="Flow_2_manager-review_end_di" bpmnElement="Flow_2_manager-review_end"/>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

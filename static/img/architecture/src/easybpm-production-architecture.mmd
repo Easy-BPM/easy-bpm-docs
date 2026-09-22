@@ -1,0 +1,47 @@
+flowchart LR
+  Users[Users and operators]
+  Ingress[HTTPS ingress or load balancer]
+
+  subgraph Web[Stateless web apps]
+    Modeler[Modeler]
+    Admin[Admin Console]
+    Portal[Task Portal]
+  end
+
+  subgraph Runtime[Easy BPM runtime]
+    Backend[Backend API replicas]
+    Worker[Worker replicas]
+  end
+
+  subgraph Data[Production data plane]
+    Postgres[(PostgreSQL)]
+    Rabbit[(RabbitMQ)]
+  end
+
+  Observability[Metrics, logs, alerts]
+  Identity[OIDC or Keycloak]
+  External[External APIs and AI providers]
+
+  Users --> Ingress
+  Ingress --> Modeler
+  Ingress --> Admin
+  Ingress --> Portal
+  Ingress --> Backend
+
+  Modeler --> Backend
+  Admin --> Backend
+  Portal --> Backend
+
+  Backend --> Postgres
+  Backend --> Rabbit
+  Rabbit --> Worker
+  Worker --> Rabbit
+  Worker --> Postgres
+  Worker --> External
+  Rabbit --> Backend
+
+  Backend --> Identity
+  Backend --> Observability
+  Worker --> Observability
+  Postgres --> Observability
+  Rabbit --> Observability

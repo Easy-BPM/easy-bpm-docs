@@ -15,19 +15,18 @@ Use the Processes API to deploy BPMN definitions, start instances, manage variab
 | `POST` | `/processes/{processId}/start` | Start a process instance |
 | `GET` | `/processes/definitions/{id}` | Get process definition by ID |
 | `GET` | `/processes/instances` | Get process instances |
-| `GET` | `/processes/instances/{id}` | Get process instance by ID |
-| `GET` | `/processes/instances/{id}/timeline` | Get process instance timeline |
 | `DELETE` | `/processes/instances/{id}` | Delete process instance |
+| `GET` | `/processes/instances/{id}` | Get process instance by ID |
 | `GET` | `/processes/instances/{id}/children` | Get child process instances |
 | `POST` | `/processes/instances/{id}/move-node` | Move process token |
 | `GET` | `/processes/instances/{id}/parent` | Get parent process instance |
 | `POST` | `/processes/instances/{id}/stop` | Stop process instance |
+| `GET` | `/processes/instances/{id}/timeline` | Get process instance timeline |
 | `GET` | `/processes/instances/{id}/variables` | Get process variables |
 | `PUT` | `/processes/instances/{id}/variables` | Assign process variables |
 | `GET` | `/processes/instances/{parentId}/children/{childId}/mapping` | Get call activity mapping |
 | `POST` | `/processes/messages` | Send a message |
 
-<a id="get-processes"></a>
 ## GET /processes
 
 **Get latest process definitions**

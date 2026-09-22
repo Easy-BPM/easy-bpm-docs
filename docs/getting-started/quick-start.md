@@ -1,90 +1,63 @@
 ---
-title: Quick Start
+title: Docker start
 ---
 
-# Quick Start
+# Docker start
 
-This guide starts Easy BPM locally with PostgreSQL, RabbitMQ, the backend, the worker, and the web applications.
+Use Docker Compose when you want the fastest local Easy BPM environment. The compose stack starts the platform services together so you can focus on modeling and running processes.
 
 ## Prerequisites
 
 | Dependency | Version |
 | --- | --- |
-| Java | 21 |
-| PostgreSQL | 15 or newer |
-| RabbitMQ | 3.12 or newer |
-| Node.js | 18 or newer for web apps, 20 or newer for the docs site |
+| Docker | Docker Desktop or Docker Engine with Compose support |
+| Git | Any recent version |
 
-## Start infrastructure
+You do not need to install Java, PostgreSQL, RabbitMQ, or Node.js locally when you run the platform through Docker.
 
-Start PostgreSQL and RabbitMQ using your local installation or managed development services.
-RabbitMQ management is usually available at `http://localhost:15672` when the management plugin is enabled.
+## Start Easy BPM
 
-Default local credentials:
-
-| Service | Username | Password |
-| --- | --- | --- |
-| PostgreSQL | `meu_usuario` | `minha_senha` |
-| RabbitMQ | `easybpm` | `easybpm` |
-
-## Start the backend
+Clone the main Easy BPM repository and start the compose stack:
 
 ```bash
-./gradlew bootRun
+git clone https://github.com/Easy-BPM/easyBPM.git
+cd easyBPM
+docker compose up -d
 ```
 
-The backend listens on `http://localhost:8080`.
+Docker starts the backend, worker, web apps, PostgreSQL, and RabbitMQ containers.
 
-Useful backend URLs:
-
-| URL | Purpose |
-| --- | --- |
-| `http://localhost:8080/swagger-ui.html` | Interactive OpenAPI UI |
-| `http://localhost:8080/v3/api-docs` | OpenAPI JSON |
-| `http://localhost:8080/actuator/health` | Health check |
-| `http://localhost:8080/actuator/prometheus` | Prometheus metrics |
-
-## Start the worker
-
-In a second terminal:
+## Check the containers
 
 ```bash
-./gradlew :worker:bootRun
+docker compose ps
 ```
 
-The worker consumes RabbitMQ tasks and resumes processes when async work completes.
+All core services should be running. If a service is still starting, wait a few seconds and check again.
 
-## Start web applications
-
-Run each app in its own terminal when needed:
+To inspect logs:
 
 ```bash
-cd easy-bpm-modeler
-npm install
-npm run dev
+docker compose logs -f
 ```
+
+To inspect a single service:
 
 ```bash
-cd easy-bpm-admin
-npm install
-npm run dev
+docker compose logs -f backend
 ```
 
-```bash
-cd easy-bpm-task-portal
-npm install
-npm run dev
-```
+## Open the apps
 
-Default local URLs:
-
-| App | URL |
+| App | Local URL |
 | --- | --- |
 | Modeler | `http://localhost:3000` |
 | Admin Console | `http://localhost:3001` |
 | Task Portal | `http://localhost:3002` |
+| Backend API | `http://localhost:8080` |
+| RabbitMQ Management | `http://localhost:15672` |
 
-Depending on your Vite configuration, Admin and Task Portal may also run on `5173` and `5174`.
+Depending on the compose configuration or local port usage, Admin and Task Portal may also run on Vite ports such as `5173` and `5174`.
 
 ## Sign in
 
@@ -98,10 +71,40 @@ Change this password before exposing any environment to external users.
 
 ## Verify the API
 
+Create an API token:
+
 ```bash
-curl -s http://localhost:8080/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"username":"admin","password":"admin"}'
+TOKEN=$(curl -s http://localhost:8080/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin"}' \
+  | jq -r ".token")
 ```
 
-The response includes a JWT token. Use it as `Authorization: Bearer <token>` for protected endpoints.
+Check the authenticated user:
+
+```bash
+curl http://localhost:8080/auth/me \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+## Stop the stack
+
+Stop containers without deleting stored data:
+
+```bash
+docker compose down
+```
+
+Stop containers and remove local volumes:
+
+```bash
+docker compose down -v
+```
+
+Use `down -v` only when you want to reset local process definitions, instances, tasks, forms, users, and audit records.
+
+## Next steps
+
+- Run a tutorial process with [Run your first BPMN process](./run-first-process).
+- Connect an agent with [Build your first AI agent](./build-first-agent).
+- Add people to the workflow with [Orchestrate human tasks](./build-human-tasks).
