@@ -5,17 +5,35 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
-      label: 'Getting Started',
+      label: 'Get started',
       items: [
-        'getting-started/quick-start',
-        'getting-started/install',
-        'getting-started/configuration',
-        'getting-started/first-login',
+        'getting-started/run-first-process',
+        'getting-started/build-first-agent',
+        'getting-started/build-human-tasks',
       ],
     },
     {
       type: 'category',
-      label: 'Build Processes',
+      label: 'Setup',
+      items: [
+        {
+          type: 'category',
+          label: 'For developers',
+          items: ['getting-started/quick-start'],
+        },
+        {
+          type: 'category',
+          label: 'For administrators',
+          items: [
+            'getting-started/administrators',
+            'getting-started/configuration',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Build processes',
       items: [
         'guides/create-process',
         'guides/forms',
@@ -29,7 +47,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Platform Apps',
+      label: 'Platform apps',
       items: [
         'platform/modeler',
         'platform/task-portal',
@@ -39,7 +57,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'API Reference',
+      label: 'API reference',
       items: [
         'api/overview',
         'api/swagger',
@@ -62,6 +80,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Deployment',
       items: [
+        'deployment/production-readiness',
         'deployment/kubernetes',
         'deployment/keycloak',
         'deployment/capacity-planning',

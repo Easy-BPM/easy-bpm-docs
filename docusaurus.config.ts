@@ -73,7 +73,16 @@ const config: Config = {
     },
     navbar: {
       title: 'Easy BPM',
+      logo: {
+        alt: 'Easy BPM logo',
+        src: 'img/easybpm-icon.png',
+      },
       items: [
+        {
+          to: '/docs/next/getting-started/run-first-process',
+          label: 'Get started',
+          position: 'left',
+        },
         {
           type: 'docSidebar',
           sidebarId: 'docs',
@@ -100,8 +109,8 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Quick Start',
-              to: '/docs/getting-started/quick-start',
+              label: 'Run your first BPMN process',
+              to: '/docs/next/getting-started/run-first-process',
             },
             {
               label: 'API',

@@ -12,12 +12,11 @@ Use the Documents API to upload files, read metadata, preview, download, list, a
 | --- | --- | --- |
 | `GET` | `/api/documents` | List documents |
 | `POST` | `/api/documents` | Upload a document |
-| `GET` | `/api/documents/{id}` | Get document metadata |
 | `DELETE` | `/api/documents/{id}` | Delete a document |
+| `GET` | `/api/documents/{id}` | Get document metadata |
 | `GET` | `/api/documents/{id}/download` | Download a document |
 | `GET` | `/api/documents/{id}/preview` | Preview a document inline |
 
-<a id="get-api-documents"></a>
 ## GET /api/documents
 
 **List documents**

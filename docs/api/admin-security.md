@@ -12,17 +12,16 @@ Use the Admin Security API to manage users, groups, passwords, group membership,
 | --- | --- | --- |
 | `GET` | `/admin/groups` | listGroups |
 | `POST` | `/admin/groups` | createGroup |
-| `PUT` | `/admin/groups/{id}` | updateGroup |
 | `DELETE` | `/admin/groups/{id}` | deleteGroup |
+| `PUT` | `/admin/groups/{id}` | updateGroup |
 | `GET` | `/admin/groups/{id}/users` | getGroupUsers |
 | `PUT` | `/admin/groups/{id}/users` | updateGroupUsers |
 | `GET` | `/admin/users` | listUsers |
 | `POST` | `/admin/users` | createUser |
-| `PUT` | `/admin/users/{id}` | updateUser |
 | `DELETE` | `/admin/users/{id}` | deleteUser |
+| `PUT` | `/admin/users/{id}` | updateUser |
 | `PUT` | `/admin/users/{id}/password` | resetPassword |
 
-<a id="get-admin-groups"></a>
 ## GET /admin/groups
 
 | Property | Value |

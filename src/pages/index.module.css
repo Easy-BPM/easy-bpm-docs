@@ -6,7 +6,7 @@
 .heroBanner {
   padding: 5rem 0 4rem;
   background:
-    linear-gradient(90deg, rgba(2, 12, 30, .82) 0%, rgba(4, 20, 38, .64) 44%, rgba(5, 28, 40, .24) 100%),
+    linear-gradient(90deg, rgba(2, 10, 32, .9) 0%, rgba(0, 44, 140, .72) 48%, rgba(11, 92, 255, .18) 100%),
     url('/img/hero/easybpm-process-orchestration-hero.png');
   background-size: cover;
   background-position: center;
@@ -17,7 +17,7 @@
 
 .kicker {
   margin: 0 0 1rem;
-  color: #a8f0ce;
+  color: #b7d1ff;
   font-weight: 700;
   text-transform: uppercase;
   font-size: .82rem;
@@ -33,7 +33,7 @@
 
 .heroSubtitle {
   max-width: 760px;
-  color: #eaf7f1;
+  color: #eef5ff;
   font-size: 1.25rem;
   line-height: 1.55;
   margin-bottom: 1.75rem;

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Easy BPM worker scaling flow</title>
+  <desc id="desc">Flow showing how backend creates worker requests, RabbitMQ distributes them to worker replicas, workers call external services, and completions return to the backend.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5d6b82"/>
+    </marker>
+    <style>
+      .bg { fill: #ffffff; }
+      .lane { fill: #f6f9ff; stroke: #dbe6ff; stroke-width: 1.5; }
+      .title { font: 700 28px Inter, Arial, sans-serif; fill: #141926; }
+      .subtitle { font: 500 15px Inter, Arial, sans-serif; fill: #5d6b82; }
+      .lane-title { font: 700 14px Inter, Arial, sans-serif; fill: #111611; letter-spacing: .5px; }
+      .box { fill: #ffffff; stroke: #cdd9f0; stroke-width: 2; rx: 10; }
+      .blue { fill: #e7f0ff; stroke: #004fe6; }
+      .green { fill: #eef5ff; stroke: #0b5cff; }
+      .gold { fill: #f8fbff; stroke: #6ea2ff; }
+      .red { fill: #f7f9fc; stroke: #111827; }
+      .gray { fill: #ffffff; stroke: #a8b6cf; }
+      .label { font: 700 16px Inter, Arial, sans-serif; fill: #111611; }
+      .note { font: 500 13px Inter, Arial, sans-serif; fill: #5d6b82; }
+      .metric { font: 700 14px Inter, Arial, sans-serif; fill: #0b5cff; }
+      .line { fill: none; stroke: #5d6b82; stroke-width: 2.2; marker-end: url(#arrow); }
+      .line-soft { fill: none; stroke: #96a7c3; stroke-width: 1.8; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 7 7; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1280" height="720"/>
+  <rect x="1168" y="30" width="56" height="56" rx="14" fill="#0b5cff"/>
+  <circle cx="1190" cy="58" r="10" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <path d="M1202 58 H1218" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+  <text class="title" x="48" y="58">Worker scaling and async execution</text>
+  <text class="subtitle" x="48" y="86">Add worker replicas when queue depth grows or external calls spend time waiting on network responses.</text>
+
+  <rect class="lane" x="44" y="124" width="240" height="450" rx="16"/>
+  <text class="lane-title" x="70" y="158">PROCESS RUNTIME</text>
+  <rect class="box blue" x="74" y="208" width="180" height="86" rx="10"/>
+  <text class="label" x="164" y="240" text-anchor="middle">Process instance</text>
+  <text class="note" x="164" y="264" text-anchor="middle">reaches API task</text>
+  <rect class="box blue" x="74" y="382" width="180" height="86" rx="10"/>
+  <text class="label" x="164" y="414" text-anchor="middle">Backend API</text>
+  <text class="note" x="164" y="438" text-anchor="middle">creates request</text>
+
+  <rect class="lane" x="340" y="124" width="210" height="450" rx="16"/>
+  <text class="lane-title" x="366" y="158">QUEUE</text>
+  <rect class="box gold" x="370" y="278" width="150" height="104" rx="10"/>
+  <text class="label" x="445" y="312" text-anchor="middle">RabbitMQ</text>
+  <text class="note" x="445" y="336" text-anchor="middle">service-task-</text>
+  <text class="note" x="445" y="358" text-anchor="middle">requests</text>
+
+  <rect class="lane" x="606" y="124" width="282" height="450" rx="16"/>
+  <text class="lane-title" x="632" y="158">WORKER POOL</text>
+  <rect class="box green" x="636" y="184" width="222" height="66" rx="10"/>
+  <text class="label" x="747" y="212" text-anchor="middle">Worker replica 1</text>
+  <text class="note" x="747" y="234" text-anchor="middle">executes async work</text>
+  <rect class="box green" x="636" y="288" width="222" height="66" rx="10"/>
+  <text class="label" x="747" y="316" text-anchor="middle">Worker replica 2</text>
+  <text class="note" x="747" y="338" text-anchor="middle">same queue, more throughput</text>
+  <rect class="box green" x="636" y="392" width="222" height="66" rx="10"/>
+  <text class="label" x="747" y="420" text-anchor="middle">Worker replica N</text>
+  <text class="note" x="747" y="442" text-anchor="middle">scale horizontally</text>
+
+  <rect class="lane" x="944" y="124" width="286" height="450" rx="16"/>
+  <text class="lane-title" x="970" y="158">RESULTS AND RECOVERY</text>
+  <rect class="box red" x="978" y="184" width="218" height="76" rx="10"/>
+  <text class="label" x="1087" y="214" text-anchor="middle">External API</text>
+  <text class="note" x="1087" y="238" text-anchor="middle">or AI provider</text>
+  <rect class="box gold" x="978" y="316" width="218" height="76" rx="10"/>
+  <text class="label" x="1087" y="346" text-anchor="middle">Completion event</text>
+  <text class="note" x="1087" y="370" text-anchor="middle">back to backend</text>
+  <rect class="box gray" x="978" y="448" width="218" height="76" rx="10"/>
+  <text class="label" x="1087" y="478" text-anchor="middle">Retry or DLQ</text>
+  <text class="note" x="1087" y="502" text-anchor="middle">after failures</text>
+
+  <rect class="box gray" x="74" y="616" width="1122" height="54" rx="10"/>
+  <text class="metric" x="635" y="648" text-anchor="middle">Throughput estimate: worker count / average external API latency</text>
+
+  <path class="line" d="M164 294 L164 382"/>
+  <path class="line" d="M254 425 L370 330"/>
+  <path class="line" d="M520 330 L636 217"/>
+  <path class="line" d="M520 330 L636 321"/>
+  <path class="line" d="M520 330 L636 425"/>
+  <path class="line" d="M858 217 L978 222"/>
+  <path class="line" d="M858 321 L978 222"/>
+  <path class="line" d="M858 425 L978 222"/>
+  <path class="line" d="M1087 260 L1087 316"/>
+  <path class="line" d="M978 354 L254 425"/>
+  <path class="line-soft dash" d="M978 486 L520 330"/>
+  <path class="line-soft dash" d="M1087 448 L1087 392"/>
+</svg>

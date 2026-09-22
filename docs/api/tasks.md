@@ -12,11 +12,14 @@ Use the Tasks API to list visible work, claim shared tasks, inspect task context
 | --- | --- | --- |
 | `GET` | `/tasks` | Get all tasks |
 | `GET` | `/tasks/{id}` | Get task by ID |
+| `PUT` | `/tasks/{id}/assignee` | Reassign a task |
 | `POST` | `/tasks/{id}/claim` | Claim a task |
 | `POST` | `/tasks/{id}/complete` | Complete a task |
-| `POST` | `/tasks/search` | Search tasks |
+| `POST` | `/tasks/{id}/draft` | Save a task draft |
+| `POST` | `/tasks/{id}/unclaim` | Unclaim a task |
+| `GET` | `/tasks/search` | Search tasks |
+| `POST` | `/tasks/search` | Search tasks with structured filters |
 
-<a id="get-tasks"></a>
 ## GET /tasks
 
 **Get all tasks**
@@ -303,6 +306,66 @@ Status: `200 OK`
 ```text
 Task completed successfully
 ```
+
+<a id="post-tasks-id-unclaim"></a>
+## POST /tasks/\{id\}/unclaim
+
+Removes the current assignee and returns the task to the available pool.
+
+```bash
+curl -X POST "http://localhost:8080/tasks/123/unclaim" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+The response is the updated [TaskResponseDto](./schemas).
+
+<a id="post-tasks-id-draft"></a>
+## POST /tasks/\{id\}/draft
+
+Persists task variables without completing the task. Use this when a user saves progress in the Task Portal and needs to continue later.
+
+```bash
+curl -X POST "http://localhost:8080/tasks/123/draft" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "variables": {
+      "amount": 1250.75,
+      "comment": "Waiting for receipt",
+      "approved": false
+    }
+  }'
+```
+
+The response is the updated [TaskResponseDto](./schemas).
+
+<a id="put-tasks-id-assignee"></a>
+## PUT /tasks/\{id\}/assignee
+
+Reassigns an existing task. This is an administrative operation for changing the assignee explicitly.
+
+```bash
+curl -X PUT "http://localhost:8080/tasks/123/assignee" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "assignee": "manager"
+  }'
+```
+
+The response is the updated [TaskResponseDto](./schemas).
+
+<a id="get-tasks-search"></a>
+## GET /tasks/search
+
+Searches tasks with query parameters. Use this for simple filters from browser clients or quick operational checks.
+
+```bash
+curl -X GET "http://localhost:8080/tasks/search?status=PENDING&assignee=manager&page=0&size=20" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+The response is a paged [PageTaskResponseDto](./schemas).
 
 <a id="post-tasks-search"></a>
 ## POST /tasks/search

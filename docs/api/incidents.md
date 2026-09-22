@@ -12,15 +12,15 @@ All endpoints require `ACCESS_BPM_ADMIN`.
 
 | Method | Path | Summary |
 | --- | --- | --- |
-| `GET` | `/incidents` | List incidents with optional filters. |
-| `GET` | `/incidents/summary` | Get dashboard incident counts. |
-| `GET` | `/incidents/{id}` | Get one incident. |
-| `GET` | `/incidents/{id}/events` | Get incident timeline events. |
-| `GET` | `/incidents/process-instances/{processInstanceId}` | Get incidents for one process instance. |
-| `POST` | `/incidents/{id}/acknowledge` | Acknowledge an incident. |
-| `POST` | `/incidents/{id}/resolve` | Resolve an incident. |
-| `POST` | `/incidents/{id}/reopen` | Reopen an incident. |
-| `POST` | `/incidents/{id}/retry` | Retry a recoverable worker/API incident. |
+| `GET` | `/incidents` | List incidents |
+| `GET` | `/incidents/{id}` | Get incident by ID |
+| `POST` | `/incidents/{id}/acknowledge` | Acknowledge incident |
+| `GET` | `/incidents/{id}/events` | Get incident timeline |
+| `POST` | `/incidents/{id}/reopen` | Reopen incident |
+| `POST` | `/incidents/{id}/resolve` | Resolve incident |
+| `POST` | `/incidents/{id}/retry` | Retry incident |
+| `GET` | `/incidents/process-instances/{processInstanceId}` | Get incidents for process instance |
+| `GET` | `/incidents/summary` | Get incident summary |
 
 ## GET /incidents
 

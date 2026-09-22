@@ -20,11 +20,11 @@ For OIDC authentication, the web applications obtain an access token from the co
 
 | Method | Path | Summary |
 | --- | --- | --- |
+| `GET` | `/api/users/me` | me_1 |
+| `GET` | `/auth/config` | config |
 | `POST` | `/auth/login` | login |
-| `GET` | `/auth/config` | configured authentication provider |
 | `GET` | `/auth/me` | me |
 
-<a id="post-auth-login"></a>
 ## POST /auth/login
 
 | Property | Value |
@@ -135,4 +135,37 @@ Status: `200 OK`
 
 This endpoint is public so clients can select the correct login flow. With local authentication it returns `{ "provider": "local" }`. With Keycloak/OIDC it also returns the issuer, client ID, and authorization, token, and logout endpoints used by the web applications.
 
+Example local response:
+
+```json
+{
+  "provider": "local",
+  "oidc": null
+}
+```
+
+Example OIDC response:
+
+```json
+{
+  "provider": "oidc",
+  "oidc": {
+    "issuerUri": "https://keycloak.example.com/realms/easybpm",
+    "clientId": "easybpm-web",
+    "authorizationEndpoint": "https://keycloak.example.com/realms/easybpm/protocol/openid-connect/auth",
+    "tokenEndpoint": "https://keycloak.example.com/realms/easybpm/protocol/openid-connect/token",
+    "logoutEndpoint": "https://keycloak.example.com/realms/easybpm/protocol/openid-connect/logout"
+  }
+}
+```
+
 See [Keycloak and OIDC](../deployment/keycloak) for the server configuration and role mapping.
+
+## GET /api/users/me
+
+Returns the current authenticated user for API clients. It uses the same [CurrentUserResponse](./schemas) shape as `GET /auth/me`.
+
+```bash
+curl -X GET "http://localhost:8080/api/users/me" \
+  -H "Authorization: Bearer $TOKEN"
+```

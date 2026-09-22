@@ -14,8 +14,8 @@ Use the Forms API to deploy and retrieve versioned form definitions by stable fo
 | `POST` | `/forms` | Deploy a form |
 | `GET` | `/forms/{id}` | Get form by ID |
 | `GET` | `/forms/latest` | Get latest form version |
+| `GET` | `/forms/latest-list` | Get latest form definitions |
 
-<a id="get-forms"></a>
 ## GET /forms
 
 **Get all form versions**
@@ -300,3 +300,15 @@ Status: `200 OK`
   }
 }
 ```
+
+<a id="get-forms-latest-list"></a>
+## GET /forms/latest-list
+
+Retrieves the latest version of each deployed form. Use this endpoint when the Modeler or an integration needs the current catalog without receiving every historical version.
+
+```bash
+curl -X GET "http://localhost:8080/forms/latest-list" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+The response is an array of [Form](./schemas) records.
