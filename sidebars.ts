@@ -71,9 +71,29 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Modeler',
+      items: [
+        {
+          type: 'doc',
+          id: 'platform/modeler',
+          label: 'Components',
+        },
+        {
+          type: 'doc',
+          id: 'platform/form-modeler',
+          label: 'Forms',
+        },
+        {
+          type: 'doc',
+          id: 'platform/agent-modeler',
+          label: 'Agents',
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Platform Apps',
       items: [
-        'platform/modeler',
         'platform/task-portal',
         'platform/admin',
         'platform/operations',

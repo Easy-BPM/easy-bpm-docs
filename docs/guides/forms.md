@@ -6,6 +6,8 @@ title: Forms
 
 Forms define the fields shown to users in the Task Portal. They are versioned by a stable `formId`, so a process can reference the latest deployed version without changing the process definition.
 
+Design the form visually with the [Form Modeler](../platform/form-modeler.md). Its reference covers every field type, validation setting, document control, preview, schema editing, import, export, and deployment.
+
 ## Deploy a form
 
 ```bash

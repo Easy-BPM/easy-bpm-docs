@@ -392,6 +392,8 @@ Example modeler export:
 
 ### AI Task (BETA)
 
+![AI Task component](/img/screenshots/modeler/component-ai-task.png)
+
 Use an AI task to send prompts to an AI provider and store the response in a process variable.
 
 | Property | Example | Notes |
@@ -425,6 +427,8 @@ Example:
 
 ### Agent Process (Feature Flag)
 
+![Agent Process editor](/img/screenshots/modeler/modeler-agent-overview.png)
+
 Agent Process is the feature-flagged resource for agentic orchestration. Use it when a BPM process needs to call an AI-driven agent that can evaluate context, produce a structured decision, and write outputs back to process variables.
 
 Enable it in the modeler before running or building the frontend:
@@ -435,6 +439,8 @@ npm run dev
 ```
 
 When enabled, the modeler shows the Agent Process resource and an `Agent Process` BPM node. The Agent Process editor can import/export Agent Process JSON drafts and deploy reusable agent definitions to `POST /agent-processes`. A BPM process then calls one of those deployed agents with an `AgentProcessCall` node.
+
+![Agent Process component](/img/screenshots/modeler/component-agent-process.png)
 
 Agent Process provider configuration:
 
@@ -535,6 +541,8 @@ Deploy order:
 ## Documentation components
 
 ### Documentation Note
+
+![Documentation Note component](/img/screenshots/modeler/component-documentation-note.png)
 
 Use a Documentation Note to add context, assumptions, business rules, or implementation notes directly on the process canvas. Add it from the `Documentation` section of the component palette, then set its title and note text in the properties panel.
 
@@ -702,6 +710,8 @@ Example:
 
 ### Message Intermediate Throw
 
+![Message Throw component](/img/screenshots/modeler/component-message-throw.png)
+
 Use a throw event when the process should publish/send a message.
 
 | Property | Example | Notes |
@@ -810,6 +820,8 @@ Example:
 
 ### Timer Boundary
 
+![Timer Boundary component](/img/screenshots/modeler/component-timer-boundary.png)
+
 Attach a timer boundary to a task when the task has a timeout path.
 
 | Property | Example | Notes |
@@ -835,9 +847,11 @@ Example:
 
 ## Form modeler
 
-For form deployment and API retrieval, see the [Forms](../guides/forms.md) build guide.
+For the complete field-by-field interface reference, see [Form Modeler](./form-modeler.md). For deployment and API retrieval, see the [Forms](../guides/forms.md) build guide.
 
 The form modeler creates JSON-schema based forms that can be attached to human tasks by form key.
+
+![Form modeler](/img/screenshots/modeler/modeler-form-overview.png)
 
 Field types:
 
