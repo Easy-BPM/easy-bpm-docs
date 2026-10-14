@@ -43,7 +43,7 @@ export default function Home(): ReactNode {
       <main className={styles.main}>
         <section className="container">
           <div className={styles.cardGrid}>
-            <Link className={styles.card} to="/docs/guides/create-process">
+            <Link className={styles.card} to="/docs/next/platform/modeler">
               <h2>Model processes</h2>
               <p>Create start events, user tasks, API tasks, gateways, message events, timers, and subprocesses.</p>
             </Link>

@@ -57,20 +57,6 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Build Processes',
-      items: [
-        'guides/create-process',
-        'guides/forms',
-        'guides/user-tasks',
-        'guides/api-tasks',
-        'guides/code-tasks',
-        'guides/message-events',
-        'guides/call-activities',
-        'guides/documents',
-      ],
-    },
-    {
-      type: 'category',
       label: 'Modeler',
       items: [
         {
@@ -114,11 +100,8 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Reference',
       items: [
-        'reference/releases',
-        'reference/process-json',
         'reference/permissions',
         'reference/environment-variables',
-        'reference/examples',
       ],
     },
   ],

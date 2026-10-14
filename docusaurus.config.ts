@@ -101,7 +101,7 @@ const config: Config = {
           label: 'API',
           position: 'left',
         },
-        {to: '/docs/guides/create-process', label: 'Guides', position: 'left'},
+        {to: '/guides', label: 'Guides', position: 'left'},
         {
           type: 'docsVersionDropdown',
           position: 'right',
