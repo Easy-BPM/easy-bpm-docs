@@ -7,6 +7,8 @@ export default function Guides(): ReactNode {
     <Layout title="Guides" description="Easy BPM guides">
       <main className="container margin-vert--lg">
         <Heading as="h1">Guides</Heading>
+        <Heading as="h2">Under construction</Heading>
+        <p>We’re preparing new guides. Check back soon.</p>
       </main>
     </Layout>
   );

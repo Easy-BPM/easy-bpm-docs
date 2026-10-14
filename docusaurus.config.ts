@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Easy BPM',
   tagline: 'Developer documentation for building, running, and integrating business processes.',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/easybpm-icon.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -41,6 +41,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          includeCurrentVersion: true,
           editUrl: undefined,
         },
         blog: false,
@@ -91,7 +92,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          to: '/docs/next/introduction/process',
+          to: '/docs/introduction/process',
           position: 'left',
           label: 'Docs',
         },
@@ -121,7 +122,7 @@ const config: Config = {
           items: [
             {
               label: 'Run your first BPMN process',
-              to: '/docs/next/getting-started/run-first-process',
+              to: '/docs/getting-started/run-first-process',
             },
             {
               label: 'API',

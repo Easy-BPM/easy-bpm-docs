@@ -1,0 +1,74 @@
+# Disposable lab only: no persistent volumes. Credentials match values.kind.yaml.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          env:
+            - name: POSTGRES_DB
+              value: "easybpm"
+            - name: POSTGRES_USER
+              value: "easybpm"
+            - name: POSTGRES_PASSWORD
+              value: "change-me"
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3-management-alpine
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "easybpm"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "change-me"
+          ports:
+            - containerPort: 5672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - port: 5672
+      targetPort: 5672

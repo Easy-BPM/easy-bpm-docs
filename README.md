@@ -41,13 +41,15 @@ The generated static site is written to `build`.
 Documentation versions are created from the current `docs` snapshot with Docusaurus.
 
 ```bash
-npm run docusaurus docs:version v0.1.0-beta.1
+npm run docusaurus docs:version v0.1.4-beta.2
 ```
 
 This creates:
 
 - `versions.json`
-- `versioned_docs/version-v0.1.0-beta.1`
-- `versioned_sidebars/version-v0.1.0-beta.1-sidebars.json`
+- `versioned_docs/version-v0.1.4-beta.2`
+- `versioned_sidebars/version-v0.1.4-beta.2-sidebars.json`
 
-Keep `docs` for the current/next documentation, and create a new version whenever a release needs a frozen docs snapshot.
+The default version is `v0.1.4-beta.2`, at `/docs`. The version selector also includes `Next`, at `/docs/next`, built from the current `docs` directory. Older snapshots have been removed from the site; they remain recoverable in Git history.
+
+Keep `docs` as the source for the next release. Changes there appear in `Next`; they do not change the frozen release snapshot. Create each new snapshot after updating that source.

@@ -21,7 +21,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/next/getting-started/run-first-process">
+            to="/docs/getting-started/run-first-process">
             Run your first BPMN process
           </Link>
           <Link className="button button--secondary button--lg" to="/docs/api/authentication">
@@ -43,15 +43,15 @@ export default function Home(): ReactNode {
       <main className={styles.main}>
         <section className="container">
           <div className={styles.cardGrid}>
-            <Link className={styles.card} to="/docs/next/platform/modeler">
+            <Link className={styles.card} to="/docs/platform/modeler">
               <h2>Model processes</h2>
               <p>Create start events, user tasks, API tasks, gateways, message events, timers, and subprocesses.</p>
             </Link>
-            <Link className={styles.card} to="/docs/next/getting-started/build-first-agent">
+            <Link className={styles.card} to="/docs/getting-started/build-first-agent">
               <h2>Integrate AI agents</h2>
               <p>Deploy reusable agent definitions, call them from BPM processes, and map AI outputs into variables.</p>
             </Link>
-            <Link className={styles.card} to="/docs/next/getting-started/build-human-tasks">
+            <Link className={styles.card} to="/docs/getting-started/build-human-tasks">
               <h2>Orchestrate human tasks</h2>
               <p>Attach forms, assign people or groups, complete work in the Task Portal, and resume the process.</p>
             </Link>
