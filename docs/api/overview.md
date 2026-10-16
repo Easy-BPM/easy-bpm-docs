@@ -18,7 +18,7 @@ Customer environments should replace this with the HTTPS API origin for that dep
 
 ## Authentication
 
-Most product endpoints require a JWT bearer token. Sign in with `POST /auth/login` and send the returned token as:
+Product endpoints accept a human bearer token or a scoped API client credential where supported. See [API Clients API](./api-clients) for integration credentials. Sign in with `POST /auth/login` and send the returned token as:
 
 ```http
 Authorization: Bearer <token>
@@ -38,23 +38,33 @@ OIDC-enabled environments can inspect the active sign-in provider with `GET /aut
 
 | Group | Operations | Page |
 | --- | ---: | --- |
+| API Clients | 8 | [API Clients API](./api-clients) |
+| SLA | 1 | [SLA API](./sla) |
 | Authentication | 4 | [Authentication API](./authentication) |
-| Agent Processes | 4 | [Agent Processes API](./agent-processes) |
+| Agent Processes | 5 | [Agent Processes API](./agent-processes) |
 | Processes | 16 | [Processes API](./processes) |
-| Tasks | 9 | [Tasks API](./tasks) |
+| Tasks | 11 | [Tasks API](./tasks) |
 | Forms | 5 | [Forms API](./forms) |
 | Documents | 6 | [Documents API](./documents) |
 | Code Tasks | 4 | [Code Tasks API](./code-tasks) |
 | Incidents | 9 | [Incidents API](./incidents) |
 | Admin Security | 11 | [Admin Security API](./admin-security) |
 | Admin Maintenance | 7 | [Admin Maintenance API](./admin-maintenance) |
-| Workspace Secrets | 4 | [Workspace Secrets API](./workspace-secrets) |
-| AI Credentials | 6 | [AI Credentials API](./ai-credentials) |
+| Workspace Secrets | 11 | [Workspace Secrets API](./workspace-secrets) |
 
 ## Endpoint index
 
 | Method | Path | Operation | Request DTO | Response DTO | Group |
 | --- | --- | --- | --- | --- | --- |
+| `GET` | `/admin/api-clients` | [listApiClients](./api-clients) | - | [PageApiClientResponse](./schemas) | [API Clients API](./api-clients) |
+| `POST` | `/admin/api-clients` | [createApiClient](./api-clients) | [CreateApiClientRequest](./schemas) | [ApiClientCredentialResponse](./schemas) | [API Clients API](./api-clients) |
+| `GET` | `/admin/api-clients/{id}` | [getApiClient](./api-clients) | - | [ApiClientResponse](./schemas) | [API Clients API](./api-clients) |
+| `PATCH` | `/admin/api-clients/{id}` | [updateApiClient](./api-clients) | [UpdateApiClientRequest](./schemas) | [ApiClientResponse](./schemas) | [API Clients API](./api-clients) |
+| `GET` | `/admin/api-clients/{id}/audit` | [auditApiClient](./api-clients) | - | [PageApiClientAuditResponse](./schemas) | [API Clients API](./api-clients) |
+| `POST` | `/admin/api-clients/{id}/revoke` | [revokeApiClient](./api-clients) | - | `No body` | [API Clients API](./api-clients) |
+| `POST` | `/admin/api-clients/{id}/rotate` | [rotateApiClient](./api-clients) | [RotateApiClientRequest](./schemas) | [ApiClientCredentialResponse](./schemas) | [API Clients API](./api-clients) |
+| `GET` | `/admin/api-clients/assignable-scopes` | [assignableScopes](./api-clients) | - | [AssignableScopeList](./schemas) | [API Clients API](./api-clients) |
+| `GET` | `/admin/sla/metrics` | [getSlaMetrics](./sla) | - | [PageSlaMetricRow](./schemas) | [SLA API](./sla) |
 | `GET` | `/api/users/me` | [me_1](./authentication) | - | [CurrentUserResponse](./schemas) | [Authentication API](./authentication) |
 | `GET` | `/auth/config` | [config](./authentication) | - | [AuthProviderConfigResponse](./schemas) | [Authentication API](./authentication) |
 | `POST` | `/auth/login` | [login](./authentication) | [LoginRequest](./schemas) | [LoginResponse](./schemas) | [Authentication API](./authentication) |
@@ -63,6 +73,7 @@ OIDC-enabled environments can inspect the active sign-in provider with `GET /aut
 | `POST` | `/agent-processes` | [Deploy an agent process definition](./agent-processes) | [JsonNode](./schemas) | [AgentProcessDefinition](./schemas) | [Agent Processes API](./agent-processes) |
 | `GET` | `/agent-processes/{key}` | [Get latest agent process definition by key](./agent-processes) | - | [AgentProcessDefinition](./schemas) | [Agent Processes API](./agent-processes) |
 | `GET` | `/agent-processes/{key}/versions` | [Get all versions for an agent process key](./agent-processes) | - | [AgentProcessDefinition](./schemas)[] | [Agent Processes API](./agent-processes) |
+| `POST` | `/agent-processes/simulate` | [simulateAgentProcess](./agent-processes) | [AgentProcessSimulationRequest](./schemas) | [AgentProcessSimulationResponse](./schemas) | [Agent Processes API](./agent-processes) |
 | `GET` | `/processes` | [Get latest process definitions](./processes) | - | [PageProcessDefinition](./schemas) | [Processes API](./processes) |
 | `POST` | `/processes` | [Deploy a process definition](./processes) | `string` | [ProcessDefinition](./schemas) | [Processes API](./processes) |
 | `POST` | `/processes/{processId}/start` | [Start a process instance](./processes) | [JsonNode](./schemas) | `object` | [Processes API](./processes) |
@@ -85,9 +96,11 @@ OIDC-enabled environments can inspect the active sign-in provider with `GET /aut
 | `POST` | `/tasks/{id}/claim` | [Claim a task](./tasks) | - | [TaskResponseDto](./schemas) | [Tasks API](./tasks) |
 | `POST` | `/tasks/{id}/complete` | [Complete a task](./tasks) | `object` | `string` | [Tasks API](./tasks) |
 | `POST` | `/tasks/{id}/draft` | [Save a task draft](./tasks) | `object` | [TaskResponseDto](./schemas) | [Tasks API](./tasks) |
+| `GET` | `/tasks/{id}/sla/events` | [listTaskSlaEvents](./tasks) | - | [PageSlaEventDto](./schemas) | [Tasks API](./tasks) |
 | `POST` | `/tasks/{id}/unclaim` | [Unclaim a task](./tasks) | - | [TaskResponseDto](./schemas) | [Tasks API](./tasks) |
 | `GET` | `/tasks/search` | [Search tasks](./tasks) | - | [PageTaskResponseDto](./schemas) | [Tasks API](./tasks) |
 | `POST` | `/tasks/search` | [Search tasks with structured filters](./tasks) | [TaskSearchRequestDto](./schemas) | [PageTaskResponseDto](./schemas) | [Tasks API](./tasks) |
+| `POST` | `/tasks/sla/summary` | [summarizeTaskSla](./tasks) | [TaskSearchRequestDto](./schemas) | [SlaSummary](./schemas) | [Tasks API](./tasks) |
 | `GET` | `/forms` | [Get all form versions](./forms) | - | [Form](./schemas)[] | [Forms API](./forms) |
 | `POST` | `/forms` | [Deploy a form](./forms) | [DeployFormRequest](./schemas) | [Form](./schemas) | [Forms API](./forms) |
 | `GET` | `/forms/{id}` | [Get form by ID](./forms) | - | [Form](./schemas) | [Forms API](./forms) |
@@ -134,9 +147,10 @@ OIDC-enabled environments can inspect the active sign-in provider with `GET /aut
 | `POST` | `/admin/secrets` | [createSecret](./workspace-secrets) | [AICredentialCreateRequestDto](./schemas) | [AICredentialResponseDto](./schemas) | [Workspace Secrets API](./workspace-secrets) |
 | `DELETE` | `/admin/secrets/{id}` | [deleteSecret](./workspace-secrets) | - | `No body` | [Workspace Secrets API](./workspace-secrets) |
 | `PUT` | `/admin/secrets/{id}` | [updateSecret](./workspace-secrets) | [AICredentialUpdateRequestDto](./schemas) | [AICredentialResponseDto](./schemas) | [Workspace Secrets API](./workspace-secrets) |
-| `GET` | `/ai/credentials` | [listCredentials](./ai-credentials) | - | [AICredentialResponseDto](./schemas)[] | [AI Credentials API](./ai-credentials) |
-| `POST` | `/ai/credentials` | [createCredential](./ai-credentials) | [AICredentialCreateRequestDto](./schemas) | [AICredentialResponseDto](./schemas) | [AI Credentials API](./ai-credentials) |
-| `DELETE` | `/ai/credentials/{id}` | [deleteCredential](./ai-credentials) | - | `No body` | [AI Credentials API](./ai-credentials) |
-| `GET` | `/ai/credentials/{id}` | [getCredential](./ai-credentials) | - | [AICredentialResponseDto](./schemas) | [AI Credentials API](./ai-credentials) |
-| `GET` | `/ai/credentials/{id}/valid` | [isCredentialValid](./ai-credentials) | - | `object` | [AI Credentials API](./ai-credentials) |
-| `GET` | `/ai/credentials/available` | [listAvailableCredentials](./ai-credentials) | - | [AICredentialResponseDto](./schemas)[] | [AI Credentials API](./ai-credentials) |
+| `GET` | `/ai/credentials` | [listCredentials](./workspace-secrets) | - | [AICredentialResponseDto](./schemas)[] | [Workspace Secrets API](./workspace-secrets) |
+| `POST` | `/ai/credentials` | [createCredential](./workspace-secrets) | [AICredentialCreateRequestDto](./schemas) | [AICredentialResponseDto](./schemas) | [Workspace Secrets API](./workspace-secrets) |
+| `DELETE` | `/ai/credentials/{id}` | [deleteCredential](./workspace-secrets) | - | `No body` | [Workspace Secrets API](./workspace-secrets) |
+| `GET` | `/ai/credentials/{id}` | [getCredential](./workspace-secrets) | - | [AICredentialResponseDto](./schemas) | [Workspace Secrets API](./workspace-secrets) |
+| `GET` | `/ai/credentials/{id}/valid` | [isCredentialValid](./workspace-secrets) | - | `object` | [Workspace Secrets API](./workspace-secrets) |
+| `GET` | `/ai/credentials/available` | [listAvailableCredentials](./workspace-secrets) | - | [AICredentialResponseDto](./schemas)[] | [Workspace Secrets API](./workspace-secrets) |
+| `GET` | `/secrets/available` | [listAvailableSecrets](./workspace-secrets) | - | [AICredentialResponseDto](./schemas)[] | [Workspace Secrets API](./workspace-secrets) |

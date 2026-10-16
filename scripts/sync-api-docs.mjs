@@ -21,6 +21,8 @@ const overviewPath = path.join(repoRoot, 'docs/api/overview.md');
 const schemasPath = path.join(repoRoot, 'docs/api/schemas.md');
 
 const apiPages = {
+  'API Clients': path.join(repoRoot, 'docs/api/api-clients.md'),
+  SLA: path.join(repoRoot, 'docs/api/sla.md'),
   Authentication: path.join(repoRoot, 'docs/api/authentication.md'),
   'Agent Processes': path.join(repoRoot, 'docs/api/agent-processes.md'),
   Processes: path.join(repoRoot, 'docs/api/processes.md'),
@@ -32,7 +34,6 @@ const apiPages = {
   'Admin Security': path.join(repoRoot, 'docs/api/admin-security.md'),
   'Admin Maintenance': path.join(repoRoot, 'docs/api/admin-maintenance.md'),
   'Workspace Secrets': path.join(repoRoot, 'docs/api/workspace-secrets.md'),
-  'AI Credentials': path.join(repoRoot, 'docs/api/ai-credentials.md'),
 };
 
 const groupOrder = Object.keys(apiPages);
@@ -51,6 +52,8 @@ const readOpenApi = async () => {
 };
 
 const pageForTag = (tag) => {
+  if (tag === 'api-client-admin-controller') return ['API Clients', './api-clients'];
+  if (tag === 'SLA') return ['SLA', './sla'];
   if (tag === 'Processes') return ['Processes', './processes'];
   if (tag === 'Tasks') return ['Tasks', './tasks'];
   if (tag === 'Forms') return ['Forms', './forms'];
@@ -60,7 +63,7 @@ const pageForTag = (tag) => {
   if (tag === 'Agent Processes') return ['Agent Processes', './agent-processes'];
   if (tag === 'admin-security-controller') return ['Admin Security', './admin-security'];
   if (tag === 'admin-secret-controller') return ['Workspace Secrets', './workspace-secrets'];
-  if (tag === 'ai-credential-controller') return ['AI Credentials', './ai-credentials'];
+  if (tag === 'ai-credential-controller' || tag === 'runtime-secret-controller') return ['Workspace Secrets', './workspace-secrets'];
   if (tag === 'auth-controller') return ['Authentication', './authentication'];
   if (tag === 'user-controller') return ['Authentication', './authentication'];
   if (tag === 'code-task-controller') return ['Code Tasks', './code-tasks'];
@@ -140,7 +143,7 @@ const renderOverview = (api, rows) => {
     })
     .sort((a, b) => groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group));
 
-  let md = `---\ntitle: API Overview\n---\n\n# API Overview\n\nThis API reference is synchronized with the backend OpenAPI contract exposed at \`/v3/api-docs\`. The same contract powers Swagger UI at \`/swagger-ui.html\`.\n\n## Base URL\n\nLocal development:\n\n\`\`\`text\nhttp://localhost:8080\n\`\`\`\n\nCustomer environments should replace this with the HTTPS API origin for that deployment.\n\n## Authentication\n\nMost product endpoints require a JWT bearer token. Sign in with \`POST /auth/login\` and send the returned token as:\n\n\`\`\`http\nAuthorization: Bearer <token>\n\`\`\`\n\nOIDC-enabled environments can inspect the active sign-in provider with \`GET /auth/config\`.\n\n## Interactive API tools\n\n| Resource | URL |\n| --- | --- |\n| Swagger UI | \`/swagger-ui.html\` |\n| OpenAPI JSON | \`/v3/api-docs\` |\n| Static OpenAPI copy in this docs site | [Download JSON](/openapi/easybpm-openapi.json) |\n\n## API groups\n\n| Group | Operations | Page |\n| --- | ---: | --- |\n`;
+  let md = `---\ntitle: API Overview\n---\n\n# API Overview\n\nThis API reference is synchronized with the backend OpenAPI contract exposed at \`/v3/api-docs\`. The same contract powers Swagger UI at \`/swagger-ui.html\`.\n\n## Base URL\n\nLocal development:\n\n\`\`\`text\nhttp://localhost:8080\n\`\`\`\n\nCustomer environments should replace this with the HTTPS API origin for that deployment.\n\n## Authentication\n\nProduct endpoints accept a human bearer token or a scoped API client credential where supported. See [API Clients API](./api-clients) for integration credentials. Sign in with \`POST /auth/login\` and send the returned token as:\n\n\`\`\`http\nAuthorization: Bearer <token>\n\`\`\`\n\nOIDC-enabled environments can inspect the active sign-in provider with \`GET /auth/config\`.\n\n## Interactive API tools\n\n| Resource | URL |\n| --- | --- |\n| Swagger UI | \`/swagger-ui.html\` |\n| OpenAPI JSON | \`/v3/api-docs\` |\n| Static OpenAPI copy in this docs site | [Download JSON](/openapi/easybpm-openapi.json) |\n\n## API groups\n\n| Group | Operations | Page |\n| --- | ---: | --- |\n`;
   for (const group of groupRows) {
     md += `| ${group.group} | ${group.count} | [${group.group} API](${group.page}) |\n`;
   }

@@ -143,7 +143,7 @@ curl -X POST "http://localhost:8080/incidents/25/reopen" \
 
 ## POST /incidents/\{id\}/retry
 
-Retry is supported for `WORKER` incidents. The backend restores the instance to the failed node, resets the related worker request, and republishes the service task request.
+Retry requires `ACCESS_BPM_ADMIN`. In addition to recoverable worker/API incidents, `SLA` incidents retry the failed SLA action subject to task, process, and action eligibility. SLA retries may return `409` when the action is unavailable. For `WORKER` incidents, The backend restores the instance to the failed node, resets the related worker request, and republishes the service task request.
 
 Request:
 
@@ -154,3 +154,5 @@ Request:
 ```
 
 If the incident is not retryable, the API returns `400`.
+
+SLA escalation failures use incident source `SLA`.

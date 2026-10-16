@@ -1085,3 +1085,5 @@ Status: `200 OK`
   "duplicate": false
 }
 ```
+
+Process timeline events can include event type `SLA` for task deadline actions.

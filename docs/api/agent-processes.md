@@ -14,6 +14,7 @@ Use the Agent Processes API to deploy reusable Agent Process definitions and ret
 | `POST` | `/agent-processes` | Deploy an agent process definition |
 | `GET` | `/agent-processes/{key}` | Get latest agent process definition by key |
 | `GET` | `/agent-processes/{key}/versions` | Get all versions for an agent process key |
+| `POST` | `/agent-processes/simulate` | simulateAgentProcess |
 
 ## POST /agent-processes
 
@@ -125,3 +126,24 @@ Returns all stored versions for one agent process key, ordered by backend reposi
 curl -X GET "http://localhost:8080/agent-processes/customer-support-resolution/versions" \
   -H "Authorization: Bearer $TOKEN"
 ```
+
+## Simulate an agent process
+
+`POST /agent-processes/simulate` validates and executes a draft without deploying it. Requires `ACCESS_BPM_ADMIN` or `ACCESS_BPM_MODELER`. Simulation calls the configured AI provider and executes API Call tools, which can affect external services; other tool types are skipped.
+
+```bash
+curl -X POST "http://localhost:8080/agent-processes/simulate" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"definition":{"resourceType":"AgentProcess","goal":"Answer the input question","provider":{"providerId":"ollama","modelName":"llama3.2"}},"inputs":{"question":"Hello"}}'
+```
+
+The body is an [AgentProcessSimulationRequest](./schemas): `definition` is required; `inputs` is an optional JSON object. The draft requires a non-empty `goal` and a provider with `providerId` and `modelName`.
+
+Example response shape (`200 OK`; actual output depends on the provider):
+
+```json
+{"success":true,"responseText":"Hello!","providerId":"ollama","modelName":"llama3.2","tokensUsed":12,"durationMs":500,"toolResults":[],"errorCode":null,"errorMessage":null}
+```
+
+Inspect `success`, `errorCode`, `errorMessage`, and individual `toolResults` when handling provider or tool failures.

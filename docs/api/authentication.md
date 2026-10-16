@@ -169,3 +169,9 @@ Returns the current authenticated user for API clients. It uses the same [Curren
 curl -X GET "http://localhost:8080/api/users/me" \
   -H "Authorization: Bearer $TOKEN"
 ```
+
+## API client authentication
+
+Integrations can send a native API client credential as `Authorization: Bearer <credential>`. These credentials begin with `ebpm_` and are issued through the [API Clients API](./api-clients). They work in local and OIDC deployments. They can call only `/processes`, `/tasks`, `/forms`, and `/api/documents` and their subpaths, subject to assigned scopes and endpoint visibility rules. They cannot call administrative or authentication routes.
+
+Scopes are `processes:read`, `processes:write`, `tasks:read`, `tasks:write`, `forms:read`, `forms:write`, `documents:read`, `documents:write`, and `messages:publish`. Requests use `SCOPE_<scope>` authorities internally. `GET /auth/me` exposes `identityType` for identities allowed to call it; human identities default to `HUMAN`.

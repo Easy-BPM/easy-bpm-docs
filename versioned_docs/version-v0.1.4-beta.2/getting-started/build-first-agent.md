@@ -24,7 +24,7 @@ Agent Process support is feature-flagged in the Modeler. Enable it before runnin
 EASY_BPM_MODELER_AGENTIC_ORCHESTRATION=true npm run dev
 ```
 
-For local experimentation, you can use `ollama` without storing a credential. For hosted providers, configure a backend environment variable or create a stored credential with the [AI Credentials API](../api/ai-credentials).
+For local experimentation, you can use `ollama` without storing a credential. For hosted providers, configure a backend environment variable or create a stored credential with the [Workspace Secrets API](../api/workspace-secrets).
 
 ## Deploy an Agent Process
 
@@ -179,5 +179,5 @@ When the process reaches the Agent Process node, Easy BPM sends the mapped `cust
 ## Next steps
 
 - Review the full [Agent Processes API](../api/agent-processes).
-- Add provider credentials through [AI Credentials](../api/ai-credentials).
+- Add provider credentials through [Workspace Secrets](../api/workspace-secrets).
 - Combine an agent decision with a manager review in [Orchestrate human tasks](./build-human-tasks).

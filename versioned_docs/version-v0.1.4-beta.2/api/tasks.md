@@ -16,9 +16,11 @@ Use the Tasks API to list visible work, claim shared tasks, inspect task context
 | `POST` | `/tasks/{id}/claim` | Claim a task |
 | `POST` | `/tasks/{id}/complete` | Complete a task |
 | `POST` | `/tasks/{id}/draft` | Save a task draft |
+| `GET` | `/tasks/{id}/sla/events` | listTaskSlaEvents |
 | `POST` | `/tasks/{id}/unclaim` | Unclaim a task |
 | `GET` | `/tasks/search` | Search tasks |
 | `POST` | `/tasks/search` | Search tasks with structured filters |
+| `POST` | `/tasks/sla/summary` | summarizeTaskSla |
 
 ## GET /tasks
 
@@ -515,3 +517,7 @@ Status: `200 OK`
   }
 }
 ```
+
+## SLA fields and queries
+
+Task responses include nullable `dueDate`, `slaStatus`, `slaTimeZone`, and `completedWithinSla`. Task search accepts `dueDate` comparisons using offset-qualified timestamps and `slaStatus` filters with `EQUALS`, `NOT_EQUALS`, `IN`, or `NOT_IN`. See [SLA API](./sla) for summaries, event history, and administrative metrics.

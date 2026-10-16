@@ -109,6 +109,8 @@ const sidebars: SidebarsConfig = {
     'api/overview',
     'api/swagger',
     'api/authentication',
+    'api/api-clients',
+    'api/sla',
     'api/workspace-secrets',
     'api/agent-processes',
     'api/processes',
@@ -119,7 +121,6 @@ const sidebars: SidebarsConfig = {
     'api/incidents',
     'api/admin-security',
     'api/admin-maintenance',
-    'api/ai-credentials',
     'api/schemas',
   ],
 };

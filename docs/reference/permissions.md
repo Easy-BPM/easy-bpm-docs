@@ -16,6 +16,8 @@ Easy BPM uses permission codes assigned directly to users or through groups.
 | `VIEW_GROUPS` | View local groups and memberships. |
 | `MANAGE_GROUPS` | Create, update, delete, and manage groups. |
 | `MANAGE_PERMISSIONS` | Permission administration where enabled. |
+| `VIEW_API_CLIENTS` | List API clients and read their metadata and audit history. |
+| `MANAGE_API_CLIENTS` | Create, update, rotate, and revoke API clients; list assignable scopes. |
 | `VIEW_SECRETS` | View workspace secret metadata; secret values remain masked. |
 | `MANAGE_SECRETS` | Create, rotate, and remove workspace secrets. |
 

@@ -18,6 +18,39 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `key` | `string` | No |  |
 | `processName` | `string` | No |  |
 
+## AgentProcessSimulationRequest
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `definition` | `object` | Yes |  |
+| `inputs` | `object` | No |  |
+
+## AgentProcessSimulationResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `success` | `boolean` | No |  |
+| `responseText` | `string` | No |  |
+| `providerId` | `string` | No |  |
+| `modelName` | `string` | No |  |
+| `tokensUsed` | `integer(int32)` | No |  |
+| `durationMs` | `integer(int64)` | No |  |
+| `toolResults` | `AgentToolSimulationResult[]` | No |  |
+| `errorCode` | `string` | No |  |
+| `errorMessage` | `string` | No |  |
+
+## AgentToolSimulationResult
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+| `name` | `string` | No |  |
+| `type` | `string` | No |  |
+| `status` | `string` | No |  |
+| `durationMs` | `integer(int64)` | No |  |
+| `response` | `object` | No |  |
+| `error` | `string` | No |  |
+
 ## AICredentialCreateRequestDto
 
 | Property | Type | Required | Description |
@@ -27,7 +60,6 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `credentialType` | `string` | No |  |
 | `token` | `string` | No |  |
 | `description` | `string` | No |  |
-| `permissions` | `string[]` | No |  |
 
 ## AICredentialResponseDto
 
@@ -43,7 +75,6 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `createdAt` | `string` | No |  |
 | `updatedAt` | `string` | No |  |
 | `lastUsedAt` | `string` | No |  |
-| `permissions` | `string[]` | No |  |
 
 ## AICredentialUpdateRequestDto
 
@@ -54,7 +85,78 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `credentialType` | `string` | No |  |
 | `token` | `string` | No |  |
 | `description` | `string` | No |  |
-| `permissions` | `string[]` | No |  |
+
+## ApiClientAuditResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `integer(int64)` | No |  |
+| `category` | `string` | No |  |
+| `action` | `string` | No |  |
+| `outcome` | `string` | No |  |
+| `actor` | `string` | No |  |
+| `credentialGeneration` | `integer(int32)` | No |  |
+| `remoteIp` | `string` | No |  |
+| `httpMethod` | `string` | No |  |
+| `requestPath` | `string` | No |  |
+| `httpStatus` | `integer(int32)` | No |  |
+| `requestId` | `string` | No |  |
+| `durationMs` | `integer(int64)` | No |  |
+| `changedFields` | `object` | No |  |
+| `createdAt` | `string(date-time)` | No |  |
+
+## ApiClientCredentialResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `client` | `ApiClientResponse` | No |  |
+| `credential` | `string` | No |  |
+
+## ApiClientErrorResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `timestamp` | `string(date-time)` | No |  |
+| `status` | `integer(int32)` | No |  |
+| `code` | `string` | No |  |
+| `message` | `string` | No |  |
+| `path` | `string` | No |  |
+| `correlationId` | `string` | No |  |
+| `fieldErrors` | `object` | No |  |
+
+## ApiClientResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string(uuid)` | No |  |
+| `name` | `string` | No |  |
+| `description` | `string` | No |  |
+| `status` | `string` | No |  |
+| `expiresAt` | `string(date-time)` | No |  |
+| `scopes` | `string[]` | No |  |
+| `credentialGeneration` | `integer(int32)` | No |  |
+| `lastUsedAt` | `string(date-time)` | No |  |
+| `lastUsedIp` | `string` | No |  |
+| `revokedAt` | `string(date-time)` | No |  |
+| `revokedBy` | `string` | No |  |
+| `createdAt` | `string(date-time)` | No |  |
+| `createdBy` | `string` | No |  |
+| `updatedAt` | `string(date-time)` | No |  |
+| `updatedBy` | `string` | No |  |
+| `version` | `integer(int64)` | No |  |
+
+## AssignableScopeList
+
+| Type | Description |
+| --- | --- |
+| `AssignableScopeResponse[]` |  |
+
+## AssignableScopeResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | No |  |
+| `name` | `string` | No |  |
 
 ## AssignProcessVariablesRequest
 
@@ -117,6 +219,15 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `methodCount` | `integer(int32)` | No |  |
 | `classes` | `string[]` | No |  |
 
+## CreateApiClientRequest
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | No |  |
+| `description` | `string` | No |  |
+| `scopes` | `string[]` | No |  |
+| `expiresAt` | `string(date-time)` | No |  |
+
 ## CreateGroupRequest
 
 | Property | Type | Required | Description |
@@ -147,6 +258,7 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `externalIdentityId` | `string` | No |  |
 | `groups` | `string[]` | No |  |
 | `permissions` | `string[]` | No |  |
+| `identityType` | `string` | No | Identity type; HUMAN by default. |
 
 ## DataRetentionSettingsResponse
 
@@ -373,6 +485,32 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `pageSize` | `integer(int32)` | No |  |
 | `unpaged` | `boolean` | No |  |
 
+## PageApiClientAuditResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `content` | `ApiClientAuditResponse[]` | No |  |
+| `totalElements` | `integer(int64)` | No |  |
+| `totalPages` | `integer` | No |  |
+| `number` | `integer` | No |  |
+| `size` | `integer` | No |  |
+| `first` | `boolean` | No |  |
+| `last` | `boolean` | No |  |
+| `empty` | `boolean` | No |  |
+
+## PageApiClientResponse
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `content` | `ApiClientResponse[]` | No |  |
+| `totalElements` | `integer(int64)` | No |  |
+| `totalPages` | `integer` | No |  |
+| `number` | `integer` | No |  |
+| `size` | `integer` | No |  |
+| `first` | `boolean` | No |  |
+| `last` | `boolean` | No |  |
+| `empty` | `boolean` | No |  |
+
 ## PageIncident
 
 | Property | Type | Required | Description |
@@ -419,6 +557,32 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `sort` | `SortObject` | No |  |
 | `numberOfElements` | `integer(int32)` | No |  |
 | `pageable` | `PageableObject` | No |  |
+| `empty` | `boolean` | No |  |
+
+## PageSlaEventDto
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `content` | `SlaEventDto[]` | No |  |
+| `totalElements` | `integer(int64)` | No |  |
+| `totalPages` | `integer` | No |  |
+| `number` | `integer` | No |  |
+| `size` | `integer` | No |  |
+| `first` | `boolean` | No |  |
+| `last` | `boolean` | No |  |
+| `empty` | `boolean` | No |  |
+
+## PageSlaMetricRow
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `content` | `SlaMetricRow[]` | No |  |
+| `totalElements` | `integer(int64)` | No |  |
+| `totalPages` | `integer` | No |  |
+| `number` | `integer` | No |  |
+| `size` | `integer` | No |  |
+| `first` | `boolean` | No |  |
+| `last` | `boolean` | No |  |
 | `empty` | `boolean` | No |  |
 
 ## PageTaskResponseDto
@@ -515,6 +679,59 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | --- | --- | --- | --- |
 | `password` | `string` | No |  |
 
+## RotateApiClientRequest
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `expiresAt` | `string(date-time)` | No |  |
+
+## SlaEventDto
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string(uuid)` | No |  |
+| `taskId` | `integer(int64)` | No |  |
+| `processInstanceId` | `integer(int64)` | No |  |
+| `actionId` | `string` | No |  |
+| `eventType` | `string` | No |  |
+| `scheduledAt` | `string(date-time)` | No |  |
+| `occurredAt` | `string(date-time)` | No |  |
+| `dueDate` | `string(date-time)` | No |  |
+| `outcome` | `string` | No |  |
+| `message` | `string` | No |  |
+| `incidentId` | `integer(int64)` | No |  |
+
+## SlaMetricRow
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `key` | `string` | No |  |
+| `label` | `string` | No |  |
+| `onTrack` | `integer(int64)` | No |  |
+| `atRisk` | `integer(int64)` | No |  |
+| `overdue` | `integer(int64)` | No |  |
+| `completed` | `integer(int64)` | No |  |
+| `withoutSla` | `integer(int64)` | No |  |
+| `totalSlaCompleted` | `integer(int64)` | No |  |
+| `completedWithinSlaCount` | `integer(int64)` | No |  |
+| `completedWithinSlaRate` | `number(double)` | No |  |
+| `successfulEscalations` | `integer(int64)` | No |  |
+| `failedEscalations` | `integer(int64)` | No |  |
+| `alertToCompletionSampleCount` | `integer(int64)` | No |  |
+| `alertToCompletionAverageSeconds` | `number(double)` | No |  |
+
+## SlaSummary
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `onTrack` | `integer(int64)` | No |  |
+| `atRisk` | `integer(int64)` | No |  |
+| `overdue` | `integer(int64)` | No |  |
+| `completed` | `integer(int64)` | No |  |
+| `withoutSla` | `integer(int64)` | No |  |
+| `asOf` | `string(date-time)` | No |  |
+| `timeZone` | `string` | No |  |
+
 ## SortObject
 
 | Property | Type | Required | Description |
@@ -542,6 +759,10 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | `formDbId` | `integer(int64)` | No |  |
 | `formId` | `string` | No |  |
 | `variables` | `Map<String, object>` | No |  |
+| `dueDate` | `string(date-time)` | No |  |
+| `slaStatus` | `string` | No |  |
+| `slaTimeZone` | `string` | No |  |
+| `completedWithinSla` | `boolean` | No |  |
 
 ## TaskSearchFilterDto
 
@@ -559,6 +780,15 @@ These schemas are generated from the current backend OpenAPI components. Fields 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `filters` | `TaskSearchFilterDto[]` | No |  |
+
+## UpdateApiClientRequest
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | No |  |
+| `description` | `string` | No |  |
+| `scopes` | `string[]` | No |  |
+| `expiresAt` | `string(date-time)` | No |  |
 
 ## UpdateDataRetentionSettingsRequest
 

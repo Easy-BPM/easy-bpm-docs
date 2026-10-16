@@ -20,7 +20,7 @@ The live backend contract is available at:
 http://localhost:8080/v3/api-docs
 ```
 
-This public docs site also includes a static copy captured from the backend: [easybpm-openapi.json](/openapi/easybpm-openapi.json).
+This public docs site also includes a static contract snapshot, with source-verified updates: [easybpm-openapi.json](/openapi/easybpm-openapi.json).
 
 ## Recommended workflow
 
