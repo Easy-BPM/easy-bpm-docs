@@ -4,7 +4,17 @@ title: Modeler
 
 # Modeler
 
-The Easy BPM Modeler is the workspace for designing BPMN 2.0 process definitions and reusable forms. It has a component palette, a canvas, a properties panel, validation feedback, BPMN import/export actions, and deployment to the configured Easy BPM backend.
+The Easy BPM Modeler is the workspace for designing BPMN 2.0 process definitions, reusable forms, and DMN decision tables. It has a component palette, a canvas, a properties panel, validation feedback, BPMN import/export actions, and deployment to the configured Easy BPM backend.
+
+## Welcome workspace
+
+Choose **Create Process** to model BPMN, **Create Form** for forms, or **Business Rules → Decision Tables** to author reusable DMN rules. The **Agents** card is available when Agent Process authoring is enabled. In the online Modeler, use **Deployed resources → Business Rules** to search for and reopen published decisions.
+
+![Modeler welcome screen with Business Rules and Decision Tables](/img/screenshots/next/dmn/modeler-welcome.jpg)
+
+This screenshot shows the desktop workspace in light mode. See [DMN Decision Tables](./decision-modeler.md) for creating rules, testing and publishing decisions, and applying them to a process.
+
+## Process editor
 
 ![Easy BPM Modeler light mode](/img/screenshots/modeler/modeler-light-overview.png)
 
@@ -255,6 +265,21 @@ Example configuration:
 ```
 
 Use required fields in the form schema when the task must validate data before completion.
+
+### Business Rule Task
+
+Use a Business Rule Task to evaluate a published DMN decision automatically. Drag it from **Activities**, connect it into the process, then configure its decision reference and typed mappings.
+
+![Business Rule Task configuration in the expense process](/img/screenshots/next/dmn/business-rule-task.jpg)
+
+| Property | Use |
+| --- | --- |
+| `Decision key` | Stable published decision key, for example `expenseApproval`. |
+| `Exact version (optional)` | Positive decision version. If empty, the latest version is selected on first execution and stays pinned across retries and re-entry for that instance/task. |
+| `Decision inputs` | Map process variables or static values to decision inputs with matching types. |
+| `Decision outputs` | Map named outputs to process variables. Use `$result` with `json` for the complete result. |
+
+Publish the decision before running the process. See [DMN Decision Tables](./decision-modeler.md#apply-the-decision-to-a-bpmn-process) for the complete expense example, hit policies, output handling, and incident recovery.
 
 ### API Task
 
@@ -935,6 +960,7 @@ Before exporting or deploying, resolve these common issues:
 | Component | Runtime behavior |
 | --- | --- |
 | Human Task | Creates a pending task in the Task Portal. Completion maps task outputs back to process variables. |
+| Business Rule Task | Evaluates a published, pinned DMN decision and maps typed outputs into process variables. Evaluation or mapping failures create a `DECISION_TASK` incident. |
 | API Task | Publishes a worker request. Completion maps response JSON paths to process variables. Failure follows an error boundary when present, otherwise the instance becomes `FAILED`. |
 | Service Task | Applies configured variable mappings and continues automatically. |
 | Code Task | Uses backend/admin code task configuration and modeler variable mappings. |

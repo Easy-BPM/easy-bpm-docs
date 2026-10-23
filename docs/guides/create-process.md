@@ -8,6 +8,8 @@ An Easy BPM process is created visually in the Modeler and deployed as BPMN 2.0 
 
 ## Basic process shape
 
+To apply reusable business rules, use a BPMN **Business Rule Task**. Follow [DMN Decision Tables](../platform/decision-modeler.md#apply-the-decision-to-a-bpmn-process) to publish a decision, map process variables, and route its result to automatic approval or human review.
+
 Every process definition needs:
 
 | Field | Description |

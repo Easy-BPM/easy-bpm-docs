@@ -71,6 +71,11 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
+          id: 'platform/decision-modeler',
+          label: 'DMN Decision Tables',
+        },
+        {
+          type: 'doc',
           id: 'platform/agent-modeler',
           label: 'Agents',
         },
