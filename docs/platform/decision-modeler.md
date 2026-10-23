@@ -1,12 +1,12 @@
 ---
-title: DMN Decision Tables
+title: Business Rules Tables
 ---
 
-# DMN Decision Tables
+# Business Rules Tables
 
 Use a decision table to keep business rules separate from the process flow. The table receives typed inputs, evaluates its rows, and returns named outputs. A BPMN **Business Rule Task** invokes a published decision and writes its result into process variables.
 
-This page documents the DMN functionality introduced in [PR #64](https://github.com/Easy-BPM/easyBPM/pull/64) for **next**. Easy BPM supports a constrained DMN 1.3 decision-table language, rather than full DMN/FEEL or graphical decision requirement diagrams.
+Easy BPM uses DMN 1.3 XML to store and exchange typed business rules tables. Each published decision has a stable key and immutable versions. The supported expression language, XML structure, and BPMN configuration are described in the [technical reference](#technical-reference).
 
 ## Open the decision workspace
 
@@ -148,3 +148,173 @@ In Admin, inspect decision version history and compare versions before rollout. 
 Missing decisions/versions, missing or incorrectly typed inputs, ambiguous UNIQUE matches, and invalid output mappings create a `DECISION_TASK` incident. Inspect the failed instance and decision execution, correct repairable input variables in Admin, and select the incident's **Retry** action. A successful retry resolves the incident and advances the process using the existing decision-version pin. A repeated failure keeps the incident open and records another failed execution.
 
 Publishing a corrected version does not replace a bad version already pinned to an instance. When the rule definition or task configuration must change, deploy the correction and use a new process instance. Execution audits store redacted input/output summaries, so inspect authorized process variables when diagnosing actual values.
+
+## Technical reference
+
+### Decision identity and table structure
+
+| Field | Contract |
+| --- | --- |
+| Decision key | Required identifier matching `[A-Za-z_][A-Za-z0-9_.-]{0,127}`. Used as the DMN decision `id` and BPMN `decisionKey`. |
+| Decision name | Required, nonblank, up to 255 characters. Describes the decision to authors and operators. |
+| Hit policy | `UNIQUE`, `FIRST`, or `COLLECT`; omitted XML hit policy defaults to `UNIQUE`. |
+| Input column ID | Stable identifier used in validation and condition explanations. |
+| Input column label | Human-readable label; does not select the value to evaluate. |
+| Input expression | Identifier or dotted object path evaluated against the supplied decision input object. |
+| Output column ID | Stable identifier for the XML column and validation context. |
+| Output name | Unique simple identifier used as the property name in the result and as the mapping's `sourceName`. Dots are not allowed. |
+| Rule ID | Stable identifier returned in matched-rule results and explanations. |
+| Rule description | Optional explanation of the business intent. |
+| Rule cells | One condition per input column and one output expression per output column, in column order. |
+
+Column and rule IDs must match `[A-Za-z_][A-Za-z0-9_.-]{0,199}` and be unique across those elements. All supplied XML IDs must be nonempty and unique in the document. Keep IDs stable when changing business logic so execution explanations and version comparisons remain understandable.
+
+Input expressions and process variable paths use `[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*`. For example, `customer.age` is valid; `customer[0].age`, function calls, and arithmetic are not. Paths traverse objects, not array indexes. Decision output expressions read from the decision input object, so any referenced data must be supplied to that object by the caller or task mapping.
+
+### Type system and literal syntax
+
+| Editor type | DMN XML `typeRef` | Accepted runtime value | Literal cell example |
+| --- | --- | --- | --- |
+| `string` | `string` | JSON string | `"gold"` |
+| `number` | `number` | JSON number | `1250.50` |
+| `boolean` | `boolean` | JSON boolean | `true` |
+| `date` | `date` | Valid calendar date string in `yyyy-MM-dd` format | `date("2026-10-20")` |
+| `json` | `Any` (`json` is also accepted on import) | JSON object, array, primitive, or explicit null | `{"tier":1,"active":true}` |
+
+The backend preserves decimal values for numeric comparison; numeric equality ignores scale, including numbers nested in JSON objects or arrays. Objects compare by their keys and values, and arrays compare by length, order, and element values. No string-to-number, string-to-boolean, or implicit date conversion occurs. A wildcard still requires the input to exist and satisfy its declared type.
+
+Literal strings use JSON escaping, for example `"He said \"yes\""`. Commas inside a quoted string, JSON object, or JSON array stay within that literal; top-level commas separate alternative input tests. Numeric and date comparisons support `=`, `!=`, `<`, `<=`, `>`, and `>=`. Interval bounds use `[` and `]` for inclusive bounds, or `(` and `)` for exclusive bounds; reversed endpoints fail validation. Date intervals can use date literals, such as `[date("2026-01-01")..date("2026-12-31")]`.
+
+Bare `true`, `false`, and `null` are literals, never variable references. `null` requires a JSON column. Output cells accept literals or paths, and are evaluated only for the selected rows. Validation can check an output path's syntax, but its existence and runtime type are checked during evaluation.
+
+The supported language is bounded and deterministic. It does not implement full FEEL, graphical decision requirement diagrams, arithmetic, arbitrary scripts, class/method access, external functions, network/filesystem access, clock functions, or random values.
+
+### Evaluation and result structure
+
+Evaluation follows these steps:
+
+1. Resolve every input expression and check its declared type. A missing or invalid input fails evaluation before rule selection.
+2. Evaluate each rule's input conditions. Conditions across columns combine with **AND**; comma-separated alternatives within a cell combine with **OR**.
+3. Apply the hit policy to matching rows. FIRST selects the first matching row; COLLECT preserves the order of all matching rows; UNIQUE rejects more than one match.
+4. Evaluate the selected rows' output expressions and check output types. Assemble result objects using output names.
+5. For a BPMN task, validate and prepare every output mapping, then persist the process variable updates together.
+
+Successful evaluation results contain:
+
+| Field | Meaning |
+| --- | --- |
+| `decisionKey` | Evaluated decision's stable key. |
+| `version` | Resolved published version; absent or null for an unpublished draft. |
+| `hitPolicy` | Policy used for this evaluation. |
+| `matchedRuleIds` | Selected rule IDs. For FIRST, only the first matching row is selected. |
+| `outputs` | One object or null for UNIQUE/FIRST; an ordered array of objects for COLLECT. |
+| `explanations` | Per-rule `ruleId`, `matched`, and condition results containing `inputId`, `expression`, and `matched`. Includes unselected rules. |
+| `durationMs` | Evaluation duration in milliseconds. |
+
+For example, two COLLECT matches can produce `[{"benefit":"FREE_SHIPPING"},{"benefit":"MEMBER_DISCOUNT"}]`. A mapping from `benefit` receives `["FREE_SHIPPING","MEMBER_DISCOUNT"]`; a mapping from `$result` receives the entire array of objects. An empty COLLECT result maps to an empty array. For a no-match UNIQUE/FIRST result, `$result` with `json` can preserve null, while a named-column mapping fails because there is no output object.
+
+### DMN XML contract
+
+The namespace must be exactly `https://www.omg.org/spec/DMN/20191111/MODEL/`. A document contains one `definitions` root, one `decision`, and one `decisionTable`. The following minimal table demonstrates the artifact structure; use the downloadable expense decision for a complete two-rule example.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             id="eligibilityDefinitions" namespace="https://example.com/rules">
+  <decision id="eligibility" name="Eligibility">
+    <decisionTable id="eligibilityTable" hitPolicy="UNIQUE">
+      <input id="age" label="Age">
+        <inputExpression typeRef="number"><text>age</text></inputExpression>
+      </input>
+      <output id="eligibleOutput" name="eligible" typeRef="boolean" />
+      <rule id="adult">
+        <inputEntry><text>&gt;= 18</text></inputEntry>
+        <outputEntry><text>true</text></outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
+```
+
+Each `inputExpression`, `inputEntry`, and `outputEntry` contains exactly one `text` element. Input and output entries align with their column order. XML metacharacters must be escaped, such as `&lt;` in a less-than condition. Descriptions are supported on decisions, input/output columns, and rules.
+
+Import accepts only the supported elements, attributes, and nesting. Additional decisions, unsupported semantic elements or attributes, aggregation settings, DTDs, entities, and external XML resources are rejected. Export/import preserves supported table semantics; an arbitrary DMN file from another tool may require adaptation.
+
+### BPMN configuration contract
+
+The executable BPMN element is `bpmn:businessRuleTask`. Easy BPM stores its configuration in `easy:node` within `bpmn:extensionElements`, with the Easy BPM namespace `https://easybpm.local/bpmn/extensions`.
+
+```xml
+<bpmn:businessRuleTask id="checkEligibility" name="Check eligibility">
+  <bpmn:extensionElements>
+    <easy:node><![CDATA[{
+      "id": "checkEligibility",
+      "name": "Check eligibility",
+      "type": "BusinessRuleTask",
+      "config": {
+        "decisionKey": "eligibility",
+        "decisionVersion": 1,
+        "inputs": [
+          {"targetName":"age","source":"variable","value":"customer.age","type":"number"}
+        ],
+        "outputs": [
+          {"sourceName":"eligible","target":"variable","value":"customer.eligible","type":"boolean"}
+        ]
+      }
+    }]]></easy:node>
+  </bpmn:extensionElements>
+</bpmn:businessRuleTask>
+```
+
+This fragment belongs inside a BPMN document declaring the `bpmn` and `easy` namespaces. The outer task ID and the extension node ID identify the same executable step.
+
+| Configuration field | Meaning |
+| --- | --- |
+| `decisionKey` | Required published decision key. |
+| `decisionVersion` | Optional positive integer. Omit it to select the latest version at the first execution. |
+| `inputs[].targetName` | Property name supplied in the decision input object; unique among input mappings. |
+| `inputs[].source` | `variable` to read a process path, or `static` to supply a literal. |
+| `inputs[].value` | Process path for a variable mapping, or an actual typed JSON value for a static mapping. |
+| `inputs[].type` | Declared mapping type, checked before decision evaluation. |
+| `outputs[].sourceName` | Decision output name or reserved selector `$result`. |
+| `outputs[].target` | `variable` for process variable output mappings. |
+| `outputs[].value` | Destination process variable path. |
+| `outputs[].type` | Output mapping type; for a named COLLECT output, the type of each array element. Use `json` for `$result`. |
+
+A static numeric input is `{"targetName":"age","source":"static","value":21,"type":"number"}`. The value must be the number `21`, rather than the string `"21"`. The Modeler converts static editing fields into typed values and rejects numeric literals that cannot round-trip exactly through its number representation; use a process variable for higher precision.
+
+Output paths create missing or null intermediate objects and preserve existing sibling properties. Scalar or array intermediate values fail. Duplicate targets and parent/child target overlaps fail regardless of mapping order, leaving all output variables unchanged.
+
+The backend executes the decision within process transaction and locking behavior; no worker request or RabbitMQ round trip is needed. The immutable binding is stored per process instance and node, survives restarts, and is reused across retry and re-entry. Retry locks and rechecks the failed instance and incident; a stale or competing retry cannot advance the process twice.
+
+### Validation limits and diagnostics
+
+| Constraint | Limit |
+| --- | --- |
+| DMN XML size | 1,000,000 UTF-8 bytes. |
+| Input columns / output columns | 1–32 each. |
+| Rule rows | 1–1,000. |
+| Cell text | 4,096 characters. |
+| Expression / JSON nesting | Depth 16. |
+| Supplied inputs / saved expected outputs | 1,000,000 serialized UTF-8 bytes each. |
+| Saved test name | Nonblank, up to 255 characters. |
+| Authoring overlap analysis | Bounded witness checks for tables with at most 100 rules; runtime UNIQUE enforcement always applies. |
+
+Validation returns `valid`, `issues`, and the parsed `table` when available. Each issue includes `severity`, `code`, `message`, and optional `ruleId` and `columnId`. Errors prevent publication; warnings require review of the stated limitation.
+
+| Diagnostic | Meaning and correction |
+| --- | --- |
+| `INVALID_DMN` / `UNSUPPORTED_TYPE` | Repair the XML structure, namespace, attributes, or column type. |
+| `INVALID_KEY` / `INVALID_IDS` / `INVALID_OUTPUTS` | Correct decision, column, rule, or output identifiers and remove duplicates. |
+| `INCOMPLETE_RULE` | Supply a cell for every column; use `-` for an unrestricted input. |
+| `INVALID_LITERAL` / `INVALID_EXPRESSION` | Correct typed literals, quoting, paths, operators, or interval bounds. |
+| `RULE_OVERLAP` | Proven overlap: an error for UNIQUE, a warning for FIRST/COLLECT. |
+| `OVERLAP_ANALYSIS_LIMITED` | Validation cannot prove all overlaps or their absence; test representative inputs and boundaries. |
+| `MISSING_INPUT` / `TYPE_MISMATCH` | Supply all required decision inputs with their declared types. |
+| `UNIQUE_VIOLATION` | More than one rule matched during execution. Make UNIQUE conditions mutually exclusive. |
+| `MISSING_PROCESS_VARIABLE` / `MAPPING_TYPE_MISMATCH` | Correct the process input source or mapping type. |
+| `MISSING_DECISION_OUTPUT` / `OUTPUT_RESULT_REQUIRES_OBJECT` | Correct the output name or handle the no-match result explicitly. |
+| `INVALID_VARIABLE_PATH` / `INVALID_OUTPUT_MAPPING` | Correct output paths, intermediate object types, duplicates, or overlapping targets. |
+| `LIMIT` | Reduce the artifact, payload, cell size, or nesting to the supported limits. |
+
+Runtime evaluation or mapping failures are recorded in decision history and create a `DECISION_TASK` incident for BPMN execution. Diagnose the recorded code together with the pinned decision version and node configuration; changing an unrelated latest version does not change the failed task's binding.

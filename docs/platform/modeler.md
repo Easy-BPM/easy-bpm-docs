@@ -12,7 +12,7 @@ Choose **Create Process** to model BPMN, **Create Form** for forms, or **Busines
 
 ![Modeler welcome screen with Business Rules and Decision Tables](/img/screenshots/next/dmn/modeler-welcome.jpg)
 
-This screenshot shows the desktop workspace in light mode. See [DMN Decision Tables](./decision-modeler.md) for creating rules, testing and publishing decisions, and applying them to a process.
+This screenshot shows the desktop workspace in light mode. See [Business Rules Tables](./decision-modeler.md) for creating rules, testing and publishing decisions, and applying them to a process.
 
 ## Process editor
 
@@ -279,7 +279,7 @@ Use a Business Rule Task to evaluate a published DMN decision automatically. Dra
 | `Decision inputs` | Map process variables or static values to decision inputs with matching types. |
 | `Decision outputs` | Map named outputs to process variables. Use `$result` with `json` for the complete result. |
 
-Publish the decision before running the process. See [DMN Decision Tables](./decision-modeler.md#apply-the-decision-to-a-bpmn-process) for the complete expense example, hit policies, output handling, and incident recovery.
+Publish the decision before running the process. See [Business Rules Tables](./decision-modeler.md#apply-the-decision-to-a-bpmn-process) for the complete expense example, hit policies, output handling, and incident recovery.
 
 ### API Task
 

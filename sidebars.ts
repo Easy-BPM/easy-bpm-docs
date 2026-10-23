@@ -72,7 +72,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'doc',
           id: 'platform/decision-modeler',
-          label: 'DMN Decision Tables',
+          label: 'Business Rules Tables',
         },
         {
           type: 'doc',
