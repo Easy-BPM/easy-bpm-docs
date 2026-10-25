@@ -266,6 +266,8 @@ Example configuration:
 
 Use required fields in the form schema when the task must validate data before completion.
 
+Enable **Task SLA** in the Human Task properties to configure a duration, optional advance alerts, and overdue reassignment or candidate additions. See [Task SLA](./task-sla.md) for configuration fields, dynamic variables, runtime behavior, and the BPMN XML contract.
+
 ### Business Rule Task
 
 Use a Business Rule Task to evaluate a published DMN decision automatically. Drag it from **Activities**, connect it into the process, then configure its decision reference and typed mappings.

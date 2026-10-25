@@ -6,6 +6,8 @@ title: User Tasks
 
 User tasks create human work items that appear in the Task Portal.
 
+To configure deadlines, warning thresholds, and overdue assignment changes, see [Task SLA](../platform/task-sla.md). The guide covers Modeler authoring, Portal status, Admin recovery, and technical configuration.
+
 ## Assign a task
 
 Assign directly to a user:

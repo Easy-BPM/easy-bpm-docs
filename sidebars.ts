@@ -86,6 +86,7 @@ const sidebars: SidebarsConfig = {
       label: 'Platform Apps',
       items: [
         'platform/task-portal',
+        'platform/task-sla',
         'platform/admin',
         'platform/operations',
       ],

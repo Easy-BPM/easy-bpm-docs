@@ -31,6 +31,8 @@ Select **Refresh** to reload the operational data. **Export Report** downloads t
 
 ## Instance Search
 
+For deadline performance, escalation history, and failed-action recovery, see [Task SLA](./task-sla.md#monitor-and-recover-in-admin). The SLA view groups metrics by process, task, user, or group; incident retry respects current task state and assignment changes.
+
 Open **Instance Search** to investigate a specific process instance. Enter its numeric instance ID or select an entry under **Recent Instances**.
 
 ![Instance Search with the example instance](/img/screenshots/admin-console/admin-instance-search.png)

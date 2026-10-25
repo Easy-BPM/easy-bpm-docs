@@ -56,6 +56,8 @@ Each task card shows its title, description, creation date, task ID, and process
 
 ## Claim and unclaim tasks
 
+For tasks with a deadline, the inbox also presents SLA status and a countdown. Use SLA filters to prioritize urgent work; claiming, unclaiming, and saving a draft preserve the original deadline. See [Task SLA](./task-sla.md#work-with-deadlines-in-the-task-portal) for statuses, refresh behavior, and completion outcomes.
+
 Opening a visible unassigned task claims it automatically. The backend assigns the task to the signed-in user and the portal confirms the change before enabling task editing.
 
 ![Task claim confirmation](/img/screenshots/task-portal/task-portal-claim-confirmation.png)
