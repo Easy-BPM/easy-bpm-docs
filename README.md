@@ -41,15 +41,15 @@ The generated static site is written to `build`.
 Documentation versions are created from the current `docs` snapshot with Docusaurus.
 
 ```bash
-npm run docusaurus docs:version v0.1.4-beta.2
+npm run docusaurus docs:version v0.1.5-beta.2
 ```
 
 This creates:
 
 - `versions.json`
-- `versioned_docs/version-v0.1.4-beta.2`
-- `versioned_sidebars/version-v0.1.4-beta.2-sidebars.json`
+- `versioned_docs/version-v0.1.5-beta.2`
+- `versioned_sidebars/version-v0.1.5-beta.2-sidebars.json`
 
-The default version is `v0.1.4-beta.2`, at `/docs`. The version selector also includes `Next`, at `/docs/next`, built from the current `docs` directory. Older snapshots have been removed from the site; they remain recoverable in Git history.
+The default version is `v0.1.5-beta.2`, at `/docs`. The version selector also includes `Next`, at `/docs/next`, built from the current `docs` directory, and `v0.1.4-beta.2`, at `/docs/v0.1.4-beta.2`. The `v0.1.5-beta.2` snapshot corresponds to the [backend release commit](https://github.com/Easy-BPM/easyBPM/commit/cddfe694924777da13d917506534863a5cb137d0).
 
 Keep `docs` as the source for the next release. Changes there appear in `Next`; they do not change the frozen release snapshot. Create each new snapshot after updating that source.
